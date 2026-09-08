@@ -1,292 +1,313 @@
 LANDING PAGE — IDEAL CONECTA
 =============================
+Atualizado em 08/09/2026. Descreve o estado real do arquivo que está no ar.
 
-COMO SUBIR NO EASYPANEL
------------------------
-1. Crie um serviço do tipo "Static" (site estático).
-2. Suba a pasta inteira, mantendo a estrutura:
+
+ONDE ELA ESTÁ
+-------------
+URL:        https://lp.ideal.ia.br
+Hospedagem: EasyPanel, projeto "idealconnecta", serviço "lp-denis"
+Origem:     GitHub, repositório DenisNF/LPcampanha01clara, branch main,
+            pasta /lp
+
+
+ESTRUTURA DA PASTA
+------------------
+O index.html tem que ficar na raiz de /lp, com a pasta img/ ao lado:
 
    index.html
+   LEIA-ME.txt
+   tratar.py
    img/
      logo-ideal-branco.svg
+     hero-sem-resposta.webp
+     ia-1.jpeg
+     ia-responde.webp
      dashboard-composto.png
      tela-historico.png
-     ia-1.jpeg
-     ia-2.jpeg
+     grupo.webp
 
-3. Aponte o subdomínio (ex.: lp.ideal.ia.br) para o serviço.
-4. Verifique o domínio no Business Manager da Meta — depende de DNS e leva tempo.
+Todas as sete imagens são usadas. Se faltar uma, o lugar dela aparece vazio.
 
 
-CÓDIGO DE ORIGEM DO WHATSAPP
-----------------------------
-No final do index.html existe:
+COMO PUBLICAR UMA ALTERAÇÃO
+---------------------------
+São dois passos, em dois lugares:
 
-   const ORIGEM = "LP-GERAL";
+1. PUSH — mandar o arquivo do computador para o GitHub
+   (commit + push no branch main)
 
-Esse código vai dentro da mensagem pré-preenchida do WhatsApp. Para saber qual
-criativo trouxe qual lead, duplique a página (ou troque o valor) por ângulo:
+2. DEPLOY — mandar o EasyPanel buscar a versão nova
+   (botão "Deploy" no topo da página do serviço lp-denis)
 
+Deploy sem push republica a versão antiga. A ordem importa.
+
+O autoDeploy está DESLIGADO. Se for ligado, o passo 2 deixa de ser
+necessário — todo push republica sozinho.
+
+
+CONFIGURAÇÃO DO EASYPANEL — não mexer sem motivo
+------------------------------------------------
+Tipo de serviço: App (não é "Static")
+Build:           Nixpacks 1.41.0, todos os campos em branco
+Caminho no repo: /lp
+Porta do domínio: 80
+Variável de ambiente do serviço: PORT=80
+
+⚠ O PORT=80 no serviço existe para SOBREPOR o PORT=3030 definido no nível do
+projeto. Sem ele, o nginx sobe na 3030, o domínio bate na 80 e a página
+responde "Service is not reachable". Isso já aconteceu em 08/09 e levou
+uma hora para ser diagnosticado. Não apague essa variável.
+
+
+RASTREAMENTO — o que está instalado
+-----------------------------------
+Tudo colado direto no <head> do HTML. A página NÃO usa Tag Manager.
+
+PIXEL DA META — 2911635805665774
+  Conjunto de dados "Ideal Connecta", conta de anúncios 407020688814606.
+  Dispara PageView no carregamento.
+
+GOOGLE ANALYTICS — G-MWHGRS4EQ1
+  Conta 389471127 > propriedade 530706737 ("Ideal Connecta - LPcampanha01")
+  > fluxo "LP.Ideal01 Clara".
+
+VERIFICAÇÃO DE DOMÍNIO
+  Não é necessária. ideal.ia.br já está verificado no Business Manager
+  (ID 868009789721365) e a verificação cobre os subdomínios.
+
+
+OS EVENTOS DE CLIQUE
+--------------------
+Existem quatro botões de WhatsApp na página, todos com a classe .zap:
+
+   nav          botão do topo (some no celular)
+   hero         CTA principal da primeira dobra
+   fechamento   CTA da última seção
+   flutuante    bolinha verde do canto
+
+O clique em qualquer um deles dispara DOIS eventos:
+
+   Contact           (Meta)      → é a conversão da página
+   clique_whatsapp   (Analytics) → comportamento na página
+
+Os dois levam junto:
+   origem  — de qual anúncio veio (LP-ANG3, por exemplo)
+   botao   — em qual dos quatro botões a pessoa clicou
+
+⚠ O Contact marca o CLIQUE, não a mensagem enviada. Do clique em diante a
+medição depende da planilha manual do Gustavo. O pixel não atravessa para
+o WhatsApp.
+
+⚠ COMBINADO DE 04/09: o dado por botão foi instalado para ficar guardado,
+NÃO para ser lido nos primeiros 30 dias. Com ~18 leads/mês espalhados em
+quatro botões, diferença de três cliques é ruído, não sinal.
+
+
+CÓDIGO DE ORIGEM — vem da URL
+-----------------------------
+No fim do index.html:
+
+   const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP-GERAL")
+
+O anúncio aponta para:
+
+   lp.ideal.ia.br/?o=LP-ANG3
+
+e o código entra sozinho na mensagem pré-preenchida do WhatsApp:
+
+   "Vim pelo site [LP-ANG3] e quero saber mais sobre a plataforma"
+
+Códigos combinados:
    LP-ANG1  atendimento perdido
    LP-ANG2  cegueira do gestor
    LP-ANG3  histórico / a prova
    LP-ANG4  follow-up perdido
    LP-ANG5  quebra de objeção
+   LP-GERAL padrão, quando não há parâmetro na URL
 
-Sem isso não há como saber de onde veio o lead.
+⚠ NÃO DUPLICAR A PÁGINA POR ÂNGULO. A decisão de 03/09 derrubou isso —
+um arquivo só serve todos os anúncios, e correção feita uma vez vale para
+todos. Cinco arquivos iguais divergem na primeira correção.
+
+⚠ O valor é limpo por regex antes de entrar na mensagem (só letra, número,
+hífen e underline, cortado em 24 caracteres). Isso não é frescura: o valor
+vem da URL e vai dentro de um texto que a pessoa envia.
+
+⚠ O Analytics NÃO lê ?o= como campanha. Ele lê utm_source, utm_medium e
+utm_campaign. A URL do anúncio pode ter os dois:
+   lp.ideal.ia.br/?o=LP-ANG3&utm_source=meta&utm_medium=cpc&utm_campaign=ang3
 
 
-PIXEL DA META
--------------
-Há um bloco comentado no <head> reservado para o pixel. Só cole o código depois
-que os eventos forem refeitos — as conversões antigas medem PageView e não podem
-ser reaproveitadas.
+NÚMERO DO WHATSAPP
+------------------
+   const NUMERO = "553136140064"
+
+Confirmado em 04/09. A LP antiga usava ...050 — não confundir.
+
+
+IMAGENS DA PÁGINA
+-----------------
+Ilustração onde é cena, print real onde é prova.
+
+  hero-sem-resposta.webp  ilustração  hero — celular às 3h sem resposta
+  grupo.webp              ilustração  o grupo no WhatsApp com o cliente
+  ia-1.jpeg               PRINT REAL  a IA atendendo
+  ia-responde.webp        PRINT REAL  a IA respondendo às 2h
+  dashboard-composto.png  PRINT REAL  o painel de gestão
+  tela-historico.png      PRINT REAL  o histórico da conversa
+
+Os prints reais são a prova do produto. Não trocar por ilustração.
+
+⚠ A imagem da IA com selo de verificado NÃO foi usada — a Ideal Conecta não
+tem conta verificada no WhatsApp Business, e afirmar isso numa página
+pública seria falso.
 
 
 FONTES
 ------
-Familjen Grotesk (títulos) e Outfit (corpo), carregadas do Google Fonts.
-Precisa de internet no navegador do visitante — o que é o normal.
+Familjen Grotesk (títulos) e Outfit (corpo), do Google Fonts.
+
+
+RITMO DAS SEÇÕES
+----------------
+A página alterna três recipientes para não virar uma faixa atrás da outra:
+
+  .sec              conteúdo solto sobre o fundo
+  .sec .painel      painel flutuante arredondado, translúcido com blur
+  .sec--solida      faixa quase opaca, para dar contraste
+
+Sequência atual:
+  hero          solto
+  problema      painel flutuante
+  IA responde   solto
+  painel/dados  faixa sólida
+  histórico     solto
+  grupo         solto
+  avaliações    painel claro
+  como começa   faixa sólida
+  FAQ           painel
+  fechamento    solto
+
+ALTERNÂNCIA DAS IMAGENS — nas seções de duas colunas o lado alterna:
+
+  IA responde    texto esquerda  ·  imagem direita   (.dupla)
+  Painel         imagem esquerda ·  texto direita    (.dupla--inv)
+  Histórico      texto esquerda  ·  imagem direita   (.dupla)
+  Grupo          imagem esquerda ·  texto direita    (.dupla--inv)
+
+Se acrescentar uma seção nova, continue alternando. Três imagens seguidas
+do mesmo lado deixam a página monótona.
+
+O .rev faz o bloco aparecer quando entra na tela (uma vez só, via
+IntersectionObserver). Respeita prefers-reduced-motion.
+
+
+FUNDO — sem foto, construído em CSS
+-----------------------------------
+Três camadas fixas: gradientes verde-água (body::before), malha de pontos
+(.fundo-tex::before) e traços verticais de luz (.fundo-tex::after).
+
+PALETA: #1d5a5c / #174a4e / #103539. Os acentos são #5fe3b4, #9df0cd e
+#a8f5d6 — subiram de tom porque o verde da marca (#3eb289) sumia no fundo
+verde. Se mexer no fundo, confira estes tons.
+
+POR QUE NÃO TEM FOTO: a página é cheia de print de tela. Foto atrás de
+interface cria ruído sobre ruído — e os prints são a prova do produto.
+Foram testadas cinco opções e nenhuma convenceu.
+
+Se um dia voltar a usar foto: 3000px de largura no mínimo e escura de
+origem. Vídeo de fundo foi descartado — trava a rolagem no 4G.
+
+
+CÓDIGO MORTO — existe no CSS e não é usado
+------------------------------------------
+Não quebra nada, mas não procure por eles no HTML:
+
+  .marca-fundo   pede img/marca.png, que não existe
+  .telafundo     nunca aplicado a nenhuma seção
+  .chat          chat desenhado, substituído pela imagem grupo.webp
+  .fio / .msg    fio de mensagens, substituído pela imagem do hero
+  .b--extra      regra do chat desenhado
+  .fotofundo     div vazia na seção do problema (o galpão saiu da página)
+
+
+INTERAÇÕES
+----------
+1. CONTADOR DO HERO — a legenda sobe de "1 mensagem" para "4 mensagens".
+   É a única animação com significado: as mensagens se acumulando sem
+   resposta são o próprio argumento da página.
+
+2. BARRA DE PROGRESSO — linha de 2px no topo, verde para limão.
+
+3. REVEAL EM CASCATA — cartões, passos e FAQ entram em sequência.
+
+4. HOVER — cartões sobem, telas crescem 1,2%, etiquetas mudam de cor.
+
+5. CARROSSEL NO CELULAR — os 4 cartões do problema e as 3 avaliações
+   deslizam na horizontal com encaixe e pista de pontos. No desktop
+   voltam a ser grade.
+
+Todas respeitam prefers-reduced-motion.
+
+
+CORES DOS BOTÕES
+----------------
+CTA principal (hero e fechamento): verde limão #e3ff36
+  É o único ponto de alta energia da página.
+
+Botão flutuante: verde WhatsApp #25d366
+  Ali o reconhecimento vale mais que o destaque.
+
+Se quiser todos em verde WhatsApp, troque --limao por --zap na regra .btn.
+Aviso: o verde do WhatsApp fica perto do verde da marca, então o CTA perde
+destaque em relação ao resto da página.
+
+
+DECISÕES DE TEXTO QUE NÃO PODEM SER DESFEITAS SEM MOTIVO
+--------------------------------------------------------
+1. SEM PREÇO E SEM FORMULÁRIO. O único caminho de conversão é a conversa
+   no WhatsApp.
+
+2. FIDELIDADE FICOU DE FORA (02/09). O assunto é tratado na reunião, onde
+   o Gustavo pode negociar. Registro: fidelidade é um dos medos declarados
+   da persona, e a página não o responde. O argumento a favor de tirar é
+   que levantar o assunto planta a preocupação em quem não estava pensando
+   nela.
+
+3. PRAZO DE IMPLANTAÇÃO SAIU DO TEXTO (03/09). O "até um mês" não aparece
+   mais em lugar nenhum. Motivo: prazo nunca soa rápido para quem tem medo
+   de implantação demorada — o leitor guarda o número, não o "poucos dias".
+   Sem número, o medo morre porque a data passa a ser dele.
+
+4. A IA NÃO TEM NOME. Decisão de 31/08: com um cliente, nome de IA é
+   atrito no anúncio.
 
 
 O QUE AINDA PODE ENTRAR
 -----------------------
 - Foto do Gustavo na seção "gente do lado"
-- Print limpo de conversa do grupo com cliente
 - Autorização da Unicorp para o nome aparecer na tela de histórico
+- og:image e og:title — hoje o link compartilhado no WhatsApp aparece sem
+  preview
+- width/height nas quatro imagens que não têm (os dois logos, o dashboard
+  e a tela de histórico) — evita salto de layout no carregamento
+- CTA que qualifica antes de mandar para o WhatsApp (duas perguntas em
+  botões). Recomendação de 01/09, decisão do Dennis, nunca tomada.
 
 
-IMAGENS DA PAGINA
------------------
-ILUSTRACAO onde e cena, PRINT REAL onde e prova. Assim a pagina fica bem
-acabada sem deixar de ser verdadeira.
+O QUE FALTA TESTAR
+------------------
+- Pixel e Contact no Teste de Eventos da Meta, com a página no ar
+- Analytics em tempo real
+- A página num celular de verdade, em 4G — o simulador do Chrome não conta
 
-  hero-sem-resposta.webp  ilustracao  hero — celular as 3h sem resposta
-  grupo.webp              ilustracao  o grupo no WhatsApp com o cliente
-  galpao.webp             foto        fundo da secao do problema
-  luzes.webp              foto        fundo fixo da pagina
-  ia-1.jpeg               PRINT REAL  a IA atendendo
-  dashboard-composto.png  PRINT REAL  o painel de gestao
-  tela-historico.png      PRINT REAL  o historico da conversa
-
-Os tres prints reais sao a prova. Nao troque por ilustracao.
+⚠ Não dá para testar o pixel com o arquivo aberto por file:// — o navegador
+trata como origem isolada e o Teste de Eventos não reconhece.
 
 
-CELULAR — O QUE FOI FEITO PRA NAO POLUIR
-----------------------------------------
-A pagina saiu de 11,6 telas de rolagem para 8,9 (queda de 23%), sem cortar
-nenhuma informacao. O que mudou:
-
-1. CARROSSEL HORIZONTAL (.desliza)
-   Os 4 cartoes do problema e as 3 avaliacoes deixaram de empilhar e passaram
-   a deslizar na horizontal, um por vez, com encaixe (scroll-snap) e uma pista
-   de pontos embaixo mostrando onde voce esta. Sozinho isso cortou 1.258px.
-   No desktop volta a ser grade — e so uma media query.
-
-2. ESPACAMENTO MENOR
-   Padding das secoes de 72px para 52px, titulos e textos levemente menores.
-
-3. IMAGENS COM TETO
-   O celular da IA e a tela de historico tem largura maxima no mobile, pra
-   nao ocuparem meia tela sozinhos.
-
-4. UMA MENSAGEM A MENOS NO CHAT DO GRUPO
-   O "Perfeito, obrigado!" some no celular (classe .b--extra). A oferta de
-   call fica, porque e a prova mais forte.
-
-Se quiser encurtar mais, os proximos alvos sao a secao de implantacao
-(1.044px) e o hero (918px) — mas ai comeca a custar conteudo.
-
-
-RITMO DAS SECOES
-----------------
-A pagina alterna tres recipientes para nao virar uma faixa atras da outra:
-
-  .sec              conteudo solto sobre o fundo — a foto aparece inteira
-  .sec .painel      painel flutuante arredondado, translucido com blur
-  .sec--solida      faixa quase opaca, para dar contraste
-
-ALTERNANCIA DAS IMAGENS
-Nas secoes de duas colunas, o lado da imagem alterna pra dar dinamismo:
-
-  IA responde    texto esquerda  ·  imagem direita   (.dupla)
-  Painel         imagem esquerda ·  texto direita    (.dupla--inv)
-  Historico      texto esquerda  ·  imagem direita   (.dupla)
-  Grupo          imagem esquerda ·  texto direita    (.dupla--inv)
-
-Se acrescentar uma secao nova, continue alternando. Tres imagens seguidas
-do mesmo lado deixam a pagina monotona.
-
-
-Sequencia atual:
-  hero          solto sobre a foto
-  problema      painel flutuante (com o galpao atras)
-  IA responde   solto
-  painel/dados  faixa solida
-  historico     solto
-  grupo         solto
-  avaliacoes    painel claro
-  como comeca   faixa solida
-  FAQ           painel
-  fechamento    solto
-
-Para mudar o recipiente de uma secao, troque a classe da <section> e,
-no caso do painel, envolva o conteudo em <div class="painel rev">.
-
-O .rev faz o bloco aparecer quando entra na tela (uma vez so, via
-IntersectionObserver). Respeita prefers-reduced-motion.
-
-
-FAQ — DUAS DECISOES
--------------------
-1. A primeira pergunta era "Quanto tempo leva pra comecar a usar?", com uma
-resposta que citava "ate um mes". Trocada em 02/09 por "Minha operacao vai
-parar durante a troca?".
-
-Motivo: a pergunta antiga PEDIA um prazo, e prazo nunca soa rapido para quem
-tem medo de implantacao demorada. O leitor guardava o numero ("um mes"), nao
-o "poucos dias". A pergunta nova responde o medo real — a operacao parando —
-e o prazo sai da conversa.
-
-O "ate um mes" continua na secao "Como comeca", onde vem depois de "poucos
-dias" e no contexto dos tres passos.
-
-2. FIDELIDADE — ficou de fora
-Removido em 02/09, por decisao do Dennis: o
-assunto fica off na pagina e e tratado na reuniao, onde o Gustavo pode
-negociar. A numeracao (01, 02...) e automatica via counter, entao nao ficou
-buraco.
-
-Registro: fidelidade e um dos medos declarados da persona. A pagina agora nao
-o responde. O argumento a favor de tirar e que levantar o assunto planta a
-preocupacao em quem nao estava pensando nela.
-
-
-CENA DA SECAO DA IA — DUAS TELAS EM PERSPECTIVA
-----------------------------------------
-A secao "Alguem responde. Mesmo as duas da manha." tem duas conversas em
-perspectiva 3D (transform rotateY/rotateX), nao prints chapados:
-
-  .cena-tras    ia-1.jpeg         — a IA atendendo e enviando a tabela
-  .cena-frente  ia-responde.webp  — a IA respondendo as 2h
-
-O hero tem uma imagem so (hero-sem-resposta.webp), com uma inclinacao leve.
-
-NOME NO CABECALHO: o numero de telefone foi substituido por "Ideal Conecta".
-Nao foi usado nome de IA porque a IA nao tem nome — decisao registrada em
-31/08 (com um cliente, nome de IA e atrito no anuncio). Se um dia a IA for
-batizada, e so refazer a imagem com o nome novo.
-
-TAMANHOS: as telas foram aumentadas em 02/09 porque estavam pequenas demais
-para ler. Se aumentar mais, use padding-bottom no .cena-palco junto, senao a
-tela da frente encavala na legenda.
-A tela do grupo (.tela-grupo): 330px no desktop, 225px no celular. Ela tem
-efeito proprio — o aparelho inclinado em 3D e dois baloes de conversa saindo
-da tela (.bolha--cli e .bolha--nos), posicionados com translateZ. No hover os
-baloes avancam mais. Os baloes sao decorativos (aria-hidden), o texto real
-esta na propria imagem.
-
-No hover as duas se endireitam um pouco e a da frente avanca. Para mudar o
-angulo, mexa nos rotateY/rotateZ de .cena-tras e .cena-frente.
-
-Se quiser trocar as imagens, mantenha as proporcoes: a de tras e horizontal
-(4:3) e a da frente e vertical de celular (~0,46).
-
-
-INTERACOES
-----------
-1. CONTADOR DO HERO
-   A legenda comeca em "1 mensagem" e sobe ate "4 mensagens", uma a cada
-   1,1s. E a unica animacao com significado: as mensagens se acumulando sem
-   resposta e o proprio argumento da pagina. Com prefers-reduced-motion ela
-   ja aparece em 4.
-
-2. BARRA DE PROGRESSO — .progresso
-   Linha de 2px no topo, verde para limao, mostrando o quanto foi lido.
-   A pagina tem 9 telas; a barra da nocao de onde a pessoa esta.
-
-3. REVEAL EM CASCATA
-   Cartoes, passos e itens do FAQ nao aparecem todos juntos: entram em
-   sequencia com 80ms de diferenca. Faz o bloco parecer vivo em vez de
-   mecanico.
-
-4. HOVER
-   Cartoes de avaliacao sobem 5px e a borda acende. Cartoes de problema
-   clareiam. Telas sobem e crescem 1,2%. Etiquetas, passos e FAQ mudam de
-   cor. Nada exagerado — so a pagina respondendo ao toque.
-
-5. CONTRASTE
-   O cinza do texto subiu de #a1a1a1 para #b9c4ce. A pagina estava
-   apagada por causa disso, nao por falta de movimento.
-
-
-CORES DOS BOTOES
-----------------
-CTA principal (hero e fechamento): verde limao #e3ff36
-  E o unico ponto de alta energia da pagina — e o que faz o olho ir ate o botao.
-
-Botao flutuante: verde WhatsApp #25d366 com icone branco
-  Ali o reconhecimento vale mais que o destaque: a pessoa sabe o que vai
-  acontecer antes de ler qualquer coisa.
-
-Se quiser todos em verde WhatsApp, troque --limao por --zap na regra .btn.
-Aviso: o verde do WhatsApp fica perto do verde da marca (#3eb289), entao o
-CTA perde destaque em relacao ao resto da pagina.
-
-
-CAMADAS DE FUNDO
-----------------
-1. FUNDO FIXO — sem foto, construido em CSS
-   A pagina rola e o fundo fica parado. Sao tres camadas:
-
-   a) body::before — gradientes
-      Marinho em degrade diagonal, com dois halos: verde no alto a direita e
-      azul a esquerda. Da profundidade sem imagem.
-
-   PALETA VERDE-AGUA (02/09): o fundo passou de marinho para verde-agua escuro
-   (#1d5a5c / #174a4e / #103539). Todos os tokens acompanharam — superficies,
-   paineis, cartoes, nav e rodape. Se clarear so o fundo, as secoes ficam mais
-   escuras que ele e o efeito se inverte.
-
-   ACENTOS SUBIRAM DE TOM: com o fundo verde, o verde da marca (#3eb289) sumia.
-   As etiquetas, numeros, falas dos cartoes e o FAQ passaram para #5fe3b4,
-   #9df0cd e #a8f5d6. Se mexer no fundo de novo, confira estes tons.
-
-   HISTORICO: paleta clareada (02/09): o marinho subiu de #16324c/#102639/#0a1826 para
-   #22496b/#1a3a57/#13293e, e os tokens acompanharam. Motivo: os prints da
-   plataforma sao azul-marinho escuro e se misturavam com o fundo. Se clarear
-   mais, o texto branco perde contraste.
-
-   b) .fundo-tex::before — malha de pontos
-      Pontos de 1,2px espacados em 34px, com mascara radial que faz a malha
-      sumir nas bordas. E o que da textura.
-
-   c) .fundo-tex::after — tracos verticais de luz
-      Cinco linhas finas em angulos levemente diferentes, desfocadas em 2px.
-      Quebram a regularidade da malha.
-
-   POR QUE NAO TEM FOTO: a pagina e cheia de print de tela (dashboard,
-   historico, celular). Foto atras de interface cria ruido sobre ruido — e os
-   prints sao a prova do produto. Sem foto tambem nao ha risco de resolucao
-   ruim nem de assunto que nao combina com o ICP (que e qualquer empresa com
-   atendimento no WhatsApp, nao um setor especifico).
-
-   Se quiser voltar a usar foto, troque o background do body::before por
-   url(...) e siga: 3000px de largura no minimo, escura de origem.
-
-4. AMBIENTE COMPOSTO — img/ambiente.jpg
-   Fundo do hero e do fechamento. É uma composição feita a partir das telas
-   reais da plataforma em perspectiva, em três planos de profundidade, com
-   halos verdes e vinheta. Gerado pelo script compor.py — se as telas mudarem,
-   rode o script de novo para regerar.
-   No hero: opacity .42 com um véu em gradiente por cima (.hero-veu).
-   No fechamento: opacity .26, espelhado.
-
-5. TELAS DA PLATAFORMA AO FUNDO — .telafundo, opacity .16 com blur 26px
-   Nas seções do problema e do grupo. É atmosfera, não informação — se der
-   pra ler, está alto demais.
-
-6. BRILHO DAS TELAS — .tela::after e .chat::after
-   Um halo verde saindo de cada print, como se o aparelho emitisse luz.
-
-Todas respeitam prefers-reduced-motion e não afetam a leitura do texto.
+tratar.py
+---------
+Script que tonalizava as fotos de fundo. NÃO é mais usado — a página não
+tem foto de fundo. Fica no repositório como histórico. As fotos que ele
+gerava (luzes.webp e galpao.webp) não fazem parte da página.
