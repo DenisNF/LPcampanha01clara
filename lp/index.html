@@ -171,6 +171,28 @@ h3{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.2}
 .sec{position:relative;background:transparent}
 .sec--solida{background:rgba(14,49,52,.8)}
 
+/* .sec--clara → quebra de ritmo: faixa branca no meio da página.
+   Redefine os tokens dentro do escopo da seção, então título, texto,
+   etiqueta, bordas e a moldura da tela herdam sozinhos. */
+.sec--clara{
+  background:#ffffff;
+  color:#0d3034;
+  --branco:      #0d3034;
+  --cinza:       #41585c;
+  --cinza-fraco: #6e8589;
+  --linha:       #dce7e7;
+  --superficie:  #f2f7f7;
+  --superficie-2:#e8f0f0;
+  --verde:       #1d7d5f;
+  --verde-fraco: #2f8a6e;
+}
+/* a sombra e o brilho verde das telas foram pensados para fundo escuro */
+.sec--clara .tela{box-shadow:0 26px 60px -34px rgba(13,48,52,.45)}
+.sec--clara .tela::after,
+.sec--clara .tela-grupo::after{display:none}
+.sec--clara .tela-grupo img{box-shadow:-18px 34px 70px -34px rgba(13,48,52,.55)}
+.sec--clara .bolha{box-shadow:0 16px 30px -14px rgba(13,48,52,.4)}
+
 .painel{
   position:relative;
   background:rgba(23,68,72,.44);
@@ -872,7 +894,7 @@ h3{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.2}
 </section>
 
 <!-- ============ VISIBILIDADE ============ -->
-<section class="sec sec--solida">
+<section class="sec sec--clara">
   <div class="env dupla dupla--inv">
     <div class="rev">
       <p class="meta">Você vê o que seu time faz</p>
@@ -904,7 +926,7 @@ h3{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.2}
 </section>
 
 <!-- ============ GENTE DO LADO ============ -->
-<section class="sec">
+<section class="sec sec--clara">
   <div class="env dupla dupla--inv">
     <div class="rev">
       <p class="meta">Ninguém sozinho do lado de cá</p>
