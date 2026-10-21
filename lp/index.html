@@ -175,16 +175,16 @@ h3{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.2}
    Redefine os tokens dentro do escopo da seção, então título, texto,
    etiqueta, bordas e a moldura da tela herdam sozinhos. */
 .sec--clara{
-  background:#ffffff;
+  background:#f4f7f7;          /* off-white, não branco puro */
   color:#0d3034;
-  --branco:      #0d3034;
-  --cinza:       #41585c;
-  --cinza-fraco: #6e8589;
-  --linha:       #dce7e7;
-  --superficie:  #f2f7f7;
-  --superficie-2:#e8f0f0;
-  --verde:       #1d7d5f;
-  --verde-fraco: #2f8a6e;
+  --branco:      #0d3034;      /* 13,1:1  título */
+  --cinza:       #41585c;      /*  7,0:1  corpo */
+  --cinza-fraco: #577074;      /*  4,9:1  etiqueta — era #6e8589, lavada a 3,6:1 */
+  --linha:       #d8e4e4;
+  --superficie:  #ffffff;
+  --superficie-2:#eaf1f1;
+  --verde:       #1d7d5f;      /*  4,7:1 */
+  --verde-fraco: #257158;      /*  5,4:1  tracinho da etiqueta */
 }
 /* a sombra e o brilho verde das telas foram pensados para fundo escuro */
 .sec--clara .tela{box-shadow:0 26px 60px -34px rgba(13,48,52,.45)}
