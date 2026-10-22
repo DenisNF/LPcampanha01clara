@@ -23,6 +23,8 @@ s.parentNode.insertBefore(t,s)}(window,document,'script',
 fbq('init', '2911635805665774');
 fbq('track', 'PageView');
 </script>
+<noscript><img height="1" width="1" style="display:none"
+src="https://www.facebook.com/tr?id=2911635805665774&ev=PageView&noscript=1" alt=""/></noscript>
 
 <!-- ===== GOOGLE ANALYTICS 4 =====
      content_group separa esta página das outras LPs nos relatórios do GA4.
@@ -33,7 +35,7 @@ fbq('track', 'PageView');
 window.dataLayer = window.dataLayer || [];
 function gtag(){dataLayer.push(arguments);}
 gtag('js', new Date());
-gtag('config', 'G-MWHGRS4EQ1', { content_group: 'LP Google Ads - Plataforma' });
+gtag('config', 'G-MWHGRS4EQ1', { content_group: 'LP02 - API Oficial' });
 </script>
 
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -690,11 +692,14 @@ h3{font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.2}
 </a>
 
 <script>
-/* ORIGEM: vem da URL do anúncio (ex.: ...?o=GADS-MULTI). Sem parâmetro: LP-GADS. */
-const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP-GADS")
-  .toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 24) || "LP-GADS";
+/* CÓDIGO DE ORIGEM — padrao LP<nn>-<PLATAFORMA>-<ANGULO>, max 24 caracteres.
+   Plataforma: META | GADS | LKDN.  A pagina NUNCA afirma plataforma;
+   quem informa e a URL do anuncio: lp.ideal.ia.br/whatsapp-oficial/?o=LP02-GADS-BLOQUEIO
+   Sem parametro na URL: LP02-DIRETO (nao afirma canal nenhum). */
+const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP02-DIRETO")
+  .toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 24) || "LP02-DIRETO";
 const NUMERO   = "553136140064";
-const MENSAGEM = `Vim pelo Google [${ORIGEM}] e quero conhecer a plataforma de atendimento no WhatsApp`;
+const MENSAGEM = `Vim pelo site [${ORIGEM}] e quero conhecer a plataforma de atendimento no WhatsApp`;
 const LINK     = `https://wa.me/${NUMERO}?text=${encodeURIComponent(MENSAGEM)}`;
 
 document.querySelectorAll(".zap").forEach(el=>{

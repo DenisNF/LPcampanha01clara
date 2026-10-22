@@ -35,7 +35,7 @@ src="https://www.facebook.com/tr?id=2911635805665774&ev=PageView&noscript=1" alt
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'G-MWHGRS4EQ1');
+  gtag('config', 'G-MWHGRS4EQ1', { content_group: 'LP01 - Nenhum cliente sem resposta' });
 </script>
 <!-- ========================================== -->
 
@@ -1062,14 +1062,17 @@ h3{font-size:clamp(1.15rem,2vw,1.45rem);line-height:1.2}
 
 <script>
 /* ======================================================================
-   CÓDIGO DE ORIGEM — trocar por anúncio.
-   Ex.: LP-ANG1 (atendimento perdido), LP-ANG2 (cegueira do gestor),
-        LP-ANG3 (histórico), LP-ANG4 (follow-up), LP-ANG5 (objeção)
+   CÓDIGO DE ORIGEM — padrao LP<nn>-<PLATAFORMA>-<ANGULO>, max 24 caracteres.
+   Plataforma: META | GADS | LKDN.  A pagina NUNCA afirma plataforma;
+   quem informa e a URL do anuncio.
+   Ex.: LP01-META-PERDIDO, LP01-META-CEGUEIRA, LP01-META-HISTORICO,
+        LP01-META-FOLLOWUP, LP01-META-OBJECAO
+   Sem parametro na URL: LP01-DIRETO (nao afirma canal nenhum).
    ====================================================================== */
-/* A origem vem da URL do anúncio: lp.ideal.ia.br/?o=LP-ANG3
-   Sem parâmetro, cai em LP-GERAL. Assim um arquivo só serve todos os anúncios. */
-const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP-GERAL")
-                 .toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 24) || "LP-GERAL";
+/* A origem vem da URL do anúncio: lp.ideal.ia.br/?o=LP01-META-HISTORICO
+   Sem parâmetro, cai em LP01-DIRETO. Assim um arquivo só serve todos os anúncios. */
+const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP01-DIRETO")
+                 .toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 24) || "LP01-DIRETO";
 
 const NUMERO  = "553136140064";
 const MENSAGEM = `Vim pelo site [${ORIGEM}] e quero saber mais sobre a plataforma`;
