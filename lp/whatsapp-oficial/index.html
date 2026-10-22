@@ -1,0 +1,769 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>WhatsApp para Empresas com Vários Atendentes | API Oficial | Ideal Conecta</title>
+<meta name="description" content="Plataforma de multiatendimento no WhatsApp com API Oficial da Meta: vários atendentes no mesmo número, transferência entre setores, painel do gestor em tempo real, IA e disparo em massa. Sem taxa de implantação.">
+<meta property="og:title" content="WhatsApp para empresas, com vários atendentes e API Oficial">
+<meta property="og:description" content="Sua equipe atendendo junto num painel só, na API Oficial da Meta. Ideal Conecta, Tech Provider Meta.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#113a3e">
+
+<!-- ===== META PIXEL ===== -->
+<script>
+!function(f,b,e,v,n,t,s)
+{if(f.fbq)return;n=f.fbq=function(){n.callMethod?
+n.callMethod.apply(n,arguments):n.queue.push(arguments)};
+if(!f._fbq)f._fbq=n;n.push=n;n.loaded=!0;n.version='2.0';
+n.queue=[];t=b.createElement(e);t.async=!0;
+t.src=v;s=b.getElementsByTagName(e)[0];
+s.parentNode.insertBefore(t,s)}(window,document,'script',
+'https://connect.facebook.net/en_US/fbevents.js');
+fbq('init', '2911635805665774');
+fbq('track', 'PageView');
+</script>
+
+<!-- ===== GOOGLE ANALYTICS 4 =====
+     content_group separa esta página das outras LPs nos relatórios do GA4.
+     GOOGLE ADS: importe o evento "clique_whatsapp" do GA4 como conversão no Google Ads
+     (Metas > Conversões > Importar > Google Analytics 4). -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-MWHGRS4EQ1"></script>
+<script>
+window.dataLayer = window.dataLayer || [];
+function gtag(){dataLayer.push(arguments);}
+gtag('js', new Date());
+gtag('config', 'G-MWHGRS4EQ1', { content_group: 'LP Google Ads - Plataforma' });
+</script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Familjen+Grotesk:ital,wght@0,400..700;1,400..700&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root{
+  --fundo:#154447;--fundo-alt:#113a3e;--superficie:#1c5457;--superficie-2:#246366;
+  --linha:#2e6d6d;--branco:#ffffff;--cinza:#b9c4ce;--cinza-fraco:#8ea0b0;
+  --verde:#5fe3b4;--verde-fraco:#2f8a6e;--limao:#e3ff36;--zap:#25d366;--zap-claro:#2fe578;
+  --alerta:#e0603f;
+  --display:"Familjen Grotesk","Helvetica Neue",Arial,sans-serif;
+  --corpo:"Outfit",system-ui,sans-serif;
+  --larg:1240px;--gut:clamp(20px,5vw,40px);
+}
+body::before{
+  content:"";position:fixed;inset:0;z-index:-2;pointer-events:none;
+  background:
+    radial-gradient(ellipse 88% 52% at 80% 6%,rgba(62,178,137,.15),transparent 60%),
+    radial-gradient(ellipse 66% 46% at 10% 34%,rgba(34,110,120,.20),transparent 64%),
+    radial-gradient(ellipse 100% 58% at 50% 100%,rgba(26,82,86,.42),transparent 68%),
+    linear-gradient(168deg,#1d5a5c 0%,#174a4e 46%,#103539 100%);
+}
+.fundo-tex{position:fixed;inset:0;z-index:-1;pointer-events:none}
+.fundo-tex::before{
+  content:"";position:absolute;inset:0;
+  background-image:radial-gradient(circle at 1px 1px,rgba(140,205,235,.42) 1.2px,transparent 0);
+  background-size:34px 34px;opacity:.8;
+  -webkit-mask-image:radial-gradient(ellipse 92% 82% at 50% 44%,#000 42%,transparent 88%);
+  mask-image:radial-gradient(ellipse 92% 82% at 50% 44%,#000 42%,transparent 88%);
+}
+.fundo-tex::after{
+  content:"";position:absolute;inset:0;filter:blur(2px);
+  background:
+    linear-gradient(96deg,transparent 11.4%,rgba(62,178,137,.20) 12%,transparent 12.6%),
+    linear-gradient(84deg,transparent 57.4%,rgba(62,178,137,.17) 58%,transparent 58.6%),
+    linear-gradient(96deg,transparent 87.4%,rgba(62,178,137,.14) 88%,transparent 88.6%);
+}
+body > *{position:relative;z-index:1}
+
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;overflow-x:clip}
+body{
+  background:var(--fundo-alt);color:var(--branco);font-family:var(--corpo);font-weight:300;
+  font-size:clamp(15px,1.05vw,17px);line-height:1.6;-webkit-font-smoothing:antialiased;overflow-x:hidden;
+}
+img{max-width:100%;height:auto;display:block}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;background:none;border:0;cursor:pointer}
+::selection{background:var(--limao);color:#0d2e2c}
+h1,h2,h3{font-family:var(--display);font-weight:600;line-height:1.06;letter-spacing:-.025em}
+h1{font-size:clamp(2rem,4.3vw,3.7rem)}
+h2{font-size:clamp(1.65rem,3.2vw,2.7rem)}
+h3{font-size:clamp(1.1rem,1.6vw,1.3rem);line-height:1.2}
+.env{max-width:var(--larg);margin:0 auto;padding-inline:var(--gut)}
+.sec{padding-block:clamp(56px,8vw,104px);position:relative}
+.sec--clara{
+  background:#f4f7f7;color:#0d3034;
+  --branco:#0d3034;--cinza:#41585c;--cinza-fraco:#577074;--linha:#d8e4e4;
+  --superficie:#ffffff;--superficie-2:#eaf1f1;--verde:#1d7d5f;--verde-fraco:#257158;
+}
+.sec--solida{background:rgba(14,49,52,.8)}
+.meta{
+  font-size:.78rem;font-weight:400;color:var(--cinza-fraco);letter-spacing:.01em;
+  display:flex;align-items:center;gap:.5rem;margin-bottom:1rem;
+}
+.meta::before{content:"";width:22px;height:1px;background:var(--verde-fraco);flex:none}
+.lede{color:var(--cinza);max-width:56ch;font-size:clamp(1.02rem,1.15vw,1.14rem)}
+.centro{text-align:center}
+.centro .meta{justify-content:center}
+.centro .lede{margin-inline:auto}
+
+.rev{opacity:0;transform:translateY(20px);transition:opacity .65s cubic-bezier(.2,.7,.3,1),transform .65s cubic-bezier(.2,.7,.3,1)}
+.rev.on{opacity:1;transform:none}
+
+.progresso{position:fixed;top:0;left:0;height:2px;width:0;z-index:100;background:linear-gradient(90deg,var(--verde),var(--limao));pointer-events:none}
+
+/* ===== NAV ===== */
+.nav{position:sticky;top:0;z-index:80;background:rgba(15,48,51,.9);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid transparent;transition:border-color .3s}
+.nav.stuck{border-bottom-color:var(--linha)}
+.nav .env{display:flex;align-items:center;justify-content:space-between;padding-block:14px}
+.nav img{height:40px;width:auto}
+.nav-cta{
+  font-size:.85rem;font-weight:500;border:1px solid var(--linha);border-radius:999px;padding:.55rem 1.1rem;
+  transition:border-color .25s,background .25s,color .25s;
+}
+.nav-cta:hover,.nav-cta:focus-visible{border-color:var(--zap);background:var(--zap);color:#062119;outline:none}
+
+/* ===== BOTÃO ===== */
+.btn{
+  display:inline-flex;align-items:center;gap:.65rem;background:var(--limao);color:#0d2e2c;
+  font-weight:600;font-size:1.02rem;padding:1rem 1.7rem;border-radius:999px;
+  transition:transform .2s cubic-bezier(.2,.8,.3,1),box-shadow .25s;
+}
+.btn:hover{transform:translateY(-2px);box-shadow:0 10px 34px -10px rgba(227,255,54,.55)}
+.btn svg{width:20px;height:20px;flex:none}
+.btn-nota{font-size:.84rem;color:var(--cinza-fraco);margin-top:.9rem}
+
+/* ===== HERO ===== */
+.hero{padding-block:clamp(36px,5vw,72px) clamp(48px,6vw,84px);overflow:hidden}
+.hero::before{
+  content:"";position:absolute;inset:0;pointer-events:none;
+  background:radial-gradient(ellipse 55% 60% at 75% 45%,rgba(62,178,137,.16),transparent 70%);
+}
+.hero-grid{display:grid;gap:clamp(32px,5vw,64px);align-items:center;position:relative}
+@media(min-width:980px){.hero-grid{grid-template-columns:1fr 1.12fr}}
+.selo-topo{
+  display:inline-flex;align-items:center;gap:.5rem;margin-bottom:1.2rem;
+  font-size:.8rem;font-weight:500;color:#c4fae5;
+  background:rgba(95,227,180,.1);border:1px solid rgba(95,227,180,.3);border-radius:999px;padding:.35rem .85rem;
+}
+.selo-topo svg{width:15px;height:15px;flex:none}
+.hero h1{margin-bottom:1.15rem}
+.hero h1 em{font-style:normal;color:var(--verde)}
+.hero .lede{margin-bottom:1.8rem}
+.garantias{display:flex;flex-wrap:wrap;gap:.5rem 1.2rem;margin-top:1.5rem;font-size:.86rem;color:var(--cinza)}
+.garantias span{display:flex;align-items:center;gap:.45rem}
+.garantias svg{width:16px;height:16px;color:var(--verde);flex:none}
+
+/* moldura de navegador para os prints reais */
+.janela{
+  background:#f4f7f7;border-radius:14px;overflow:hidden;
+  box-shadow:0 40px 90px -40px rgba(0,0,0,.9),0 0 0 1px rgba(255,255,255,.08);
+}
+.janela-barra{
+  display:flex;align-items:center;gap:.4rem;padding:.6rem .85rem;background:#e6eded;
+  font-size:.72rem;font-weight:500;color:#41585c;letter-spacing:.03em;
+}
+.janela-barra i{width:9px;height:9px;border-radius:50%;background:#c3cfcf;flex:none}
+.janela-barra b{margin-left:.5rem;font-weight:600}
+.hero-visual{position:relative;perspective:1600px}
+.hero-visual .janela{transform:rotateY(-6deg) rotateX(2deg);transition:transform .7s cubic-bezier(.2,.8,.3,1)}
+.hero-visual:hover .janela{transform:rotateY(-3deg) rotateX(1deg)}
+.hero-visual::after{
+  content:"";position:absolute;inset:8% -6% -10% -6%;z-index:-1;
+  background:radial-gradient(ellipse at center,rgba(95,227,180,.22),transparent 66%);filter:blur(40px);
+}
+.etiqueta{
+  position:absolute;display:flex;align-items:center;gap:.5rem;
+  font-size:.78rem;font-weight:500;padding:.5rem .8rem;border-radius:12px;
+  background:rgba(17,58,62,.94);border:1px solid rgba(95,227,180,.3);color:#d9fff0;
+  box-shadow:0 16px 34px -14px rgba(0,0,0,.8);backdrop-filter:blur(4px);
+}
+.etiqueta svg{width:15px;height:15px;color:var(--verde);flex:none}
+.etiqueta--a{left:-3%;bottom:-6%}
+.etiqueta--b{right:-2%;top:-7%}
+@media(max-width:979px){
+  .hero-visual .janela{transform:none}
+  .etiqueta--a{left:4%;bottom:-14px}
+  .etiqueta--b{right:4%;top:-14px}
+}
+
+/* ===== DORES ===== */
+.dores{display:grid;gap:14px;margin-top:2.4rem}
+@media(min-width:720px){.dores{grid-template-columns:1fr 1fr}}
+@media(min-width:1100px){.dores{grid-template-columns:repeat(4,1fr)}}
+.dor{
+  background:rgba(17,55,58,.55);border:1px solid rgba(62,178,137,.16);border-radius:18px;
+  padding:1.5rem 1.4rem;transition:border-color .3s,transform .35s cubic-bezier(.2,.8,.3,1);
+}
+.dor:hover{border-color:rgba(62,178,137,.36);transform:translateY(-4px)}
+.dor-ic{
+  width:40px;height:40px;border-radius:12px;display:grid;place-items:center;margin-bottom:1rem;
+  background:rgba(224,96,63,.14);color:#f2a48e;
+}
+.dor-ic svg{width:20px;height:20px}
+.dor .fala{font-family:var(--display);font-style:italic;font-size:1.08rem;color:#9df0cd;line-height:1.3;margin-bottom:.6rem}
+.dor p{font-size:.93rem;color:#c3cdd6}
+.dor small{display:block;margin-top:.7rem;font-size:.72rem;color:var(--cinza-fraco)}
+.raiz{
+  margin-top:1.8rem;text-align:center;font-family:var(--display);font-size:clamp(1.05rem,1.6vw,1.25rem);
+}
+.raiz em{font-style:normal;color:var(--verde)}
+
+/* ===== ABAS DA PLATAFORMA ===== */
+.abas{
+  display:flex;gap:.4rem;margin-top:2.2rem;padding:.35rem;
+  background:var(--superficie-2);border:1px solid var(--linha);border-radius:999px;
+  width:max-content;max-width:100%;overflow-x:auto;scrollbar-width:none;margin-inline:auto;
+}
+.abas::-webkit-scrollbar{display:none}
+.aba{
+  white-space:nowrap;font-size:.9rem;font-weight:500;color:var(--cinza);
+  padding:.6rem 1.1rem;border-radius:999px;transition:background .25s,color .25s;
+}
+.aba:hover{color:var(--branco)}
+.aba[aria-selected="true"]{background:#0d3034;color:#fff}
+.aba:focus-visible{outline:2px solid var(--verde);outline-offset:2px}
+.painel-aba{display:grid;gap:clamp(24px,4vw,56px);align-items:center;margin-top:2.4rem}
+.painel-aba[hidden]{display:none}
+@media(min-width:940px){.painel-aba{grid-template-columns:.85fr 1.15fr}}
+.painel-aba h3{font-size:clamp(1.4rem,2.4vw,2rem);margin-bottom:.8rem}
+.painel-aba > div > p{color:var(--cinza);margin-bottom:1.2rem}
+.lista{list-style:none;display:grid;gap:.85rem}
+.lista li{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start}
+.lista li svg{width:20px;height:20px;color:var(--verde);margin-top:.15rem}
+.lista b{font-weight:500;display:block}
+.lista span{font-size:.92rem;color:var(--cinza)}
+.painel-aba .janela{box-shadow:0 30px 70px -36px rgba(13,48,52,.5),0 0 0 1px #d8e4e4}
+.anima{animation:entra .45s cubic-bezier(.2,.7,.3,1)}
+@keyframes entra{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+
+/* chat desenhado (aba IA e campanhas) */
+.chat{
+  background:#fff;border:1px solid #d8e4e4;border-radius:18px;padding:22px;display:flex;flex-direction:column;gap:11px;
+  box-shadow:0 30px 70px -36px rgba(13,48,52,.5);max-width:460px;width:100%;margin-inline:auto;
+}
+.chat-topo{display:flex;align-items:center;gap:.7rem;padding-bottom:.8rem;border-bottom:1px solid #e3ecec}
+.chat-topo .av{width:34px;height:34px;border-radius:50%;background:#1d7d5f;display:grid;place-items:center;flex:none}
+.chat-topo .av svg{width:17px;height:17px}
+.chat-topo b{font-weight:500;font-size:.92rem}
+.chat-topo span{display:block;font-size:.74rem;color:#577074}
+.b{padding:.65rem .9rem .45rem;border-radius:14px;font-size:.9rem;max-width:84%;width:fit-content;font-weight:400}
+.b .h{display:block;font-size:.66rem;opacity:.65;text-align:right;margin-top:.25rem}
+.b--cli{background:#eef3f3;border-bottom-left-radius:4px;color:#0d3034}
+.b--ia{background:#1d7d5f;color:#fff;align-self:flex-end;border-bottom-right-radius:4px}
+.b-sis{align-self:center;font-size:.74rem;color:#41585c;background:#eaf1f1;border-radius:999px;padding:.3rem .85rem}
+.tag-ia{display:inline-block;font-size:.62rem;font-weight:600;letter-spacing:.06em;background:rgba(255,255,255,.2);border-radius:4px;padding:0 .3rem;margin-right:.35rem}
+
+/* ===== API + COEXISTÊNCIA ===== */
+.dois{display:grid;gap:16px;margin-top:2.4rem}
+@media(min-width:860px){.dois{grid-template-columns:1fr 1fr}}
+.cartao{
+  background:rgba(23,68,72,.5);border:1px solid rgba(62,178,137,.18);border-radius:24px;
+  padding:clamp(24px,3.4vw,40px);backdrop-filter:blur(14px);-webkit-backdrop-filter:blur(14px);
+}
+.cartao h3{font-size:clamp(1.25rem,2vw,1.6rem);margin-bottom:.7rem}
+.cartao > p{color:var(--cinza);margin-bottom:1.2rem}
+.canal{
+  display:flex;align-items:center;gap:.8rem;padding:.75rem .9rem;margin-top:.6rem;
+  border:1px solid var(--linha);border-radius:14px;background:rgba(17,55,58,.6);
+}
+.canal .ic{width:34px;height:34px;border-radius:10px;display:grid;place-items:center;flex:none;background:var(--zap)}
+.canal .ic--biz{background:#128c7e}
+.canal .ic svg{width:18px;height:18px}
+.canal b{display:block;font-weight:500;font-size:.92rem}
+.canal small{display:block;font-size:.76rem;color:var(--cinza-fraco)}
+.canal .tag{margin-left:auto;font-size:.7rem;font-weight:500;color:var(--verde);border:1px solid var(--verde-fraco);border-radius:999px;padding:.12rem .6rem;white-space:nowrap}
+
+/* ===== PROVA + PASSOS ===== */
+.avals{display:grid;gap:14px;margin-top:2.2rem}
+@media(min-width:820px){.avals{grid-template-columns:repeat(3,1fr)}}
+.aval{background:#fff;border:1px solid #d8e4e4;border-radius:16px;padding:1.4rem 1.3rem;display:flex;flex-direction:column}
+.estrelas{color:#e8a900;letter-spacing:.12em;font-size:.9rem;margin-bottom:.7rem}
+.aval p{font-size:.94rem;color:#2c4448;flex:1}
+.aval .quem{margin-top:1rem;font-size:.86rem;font-weight:500}
+.aval .fonte{display:block;font-size:.74rem;color:#577074;font-weight:300}
+.passos{display:grid;gap:14px;margin-top:3rem;counter-reset:p}
+@media(min-width:820px){.passos{grid-template-columns:repeat(3,1fr)}}
+.passo{counter-increment:p;padding:1.3rem 1.3rem 1.4rem;border-top:2px solid var(--verde);background:#fff;border-radius:0 0 14px 14px}
+.passo::before{content:counter(p,decimal-leading-zero);display:block;font-weight:600;font-size:.85rem;color:var(--verde);margin-bottom:.5rem;letter-spacing:.06em}
+.passo h3{margin-bottom:.35rem}
+.passo p{font-size:.92rem;color:var(--cinza)}
+.fecho-passos{margin-top:1.6rem;text-align:center;font-family:var(--display);font-size:1.1rem}
+
+/* ===== FAQ ===== */
+.faq{margin-top:2.2rem;max-width:820px;margin-inline:auto;counter-reset:q}
+.faq details{border-bottom:1px solid var(--linha)}
+.faq details:first-child{border-top:1px solid var(--linha)}
+.faq summary{
+  counter-increment:q;cursor:pointer;list-style:none;padding:1.2rem 2.8rem 1.2rem 2.8rem;
+  font-family:var(--display);font-size:1.04rem;font-weight:500;position:relative;transition:color .25s;
+}
+.faq summary:hover{color:#b6f7dd}
+.faq summary::before{content:counter(q,decimal-leading-zero);position:absolute;left:0;top:1.3rem;font-family:var(--corpo);font-size:.82rem;font-weight:500;color:var(--verde)}
+.faq summary::-webkit-details-marker{display:none}
+.faq summary::after{
+  content:"";position:absolute;right:.4rem;top:50%;width:10px;height:10px;
+  border-right:1.6px solid var(--verde);border-bottom:1.6px solid var(--verde);
+  transform:translateY(-70%) rotate(45deg);transition:transform .28s;
+}
+.faq details[open] summary::after{transform:translateY(-20%) rotate(-135deg)}
+.faq .resp{padding:0 1.5rem 1.4rem 2.8rem;color:var(--cinza);font-size:.96rem}
+.faq summary:focus-visible{outline:2px solid var(--verde);outline-offset:3px;border-radius:4px}
+
+/* ===== FECHAMENTO ===== */
+.fim{text-align:center;overflow:hidden;background:rgba(14,48,51,.45)}
+.fim::before{content:"";position:absolute;inset:0;pointer-events:none;background:radial-gradient(ellipse 60% 65% at 50% 45%,rgba(62,178,137,.16),transparent 68%)}
+.fim .env{position:relative}
+.fim h2{max-width:22ch;margin-inline:auto}
+.fim h2 em{font-style:normal;color:var(--verde)}
+.fim .lede{margin:1.2rem auto 2rem}
+
+.rodape{border-top:1px solid var(--linha);padding-block:2.2rem;background:rgba(14,48,51,.85)}
+.rodape .env{display:flex;flex-wrap:wrap;gap:1rem;align-items:center;justify-content:space-between}
+.rodape img{height:34px;width:auto;opacity:.8}
+.rodape p{font-size:.8rem;color:var(--cinza-fraco)}
+
+.flutua{
+  position:fixed;right:18px;bottom:18px;z-index:90;width:56px;height:56px;border-radius:50%;background:var(--zap);
+  display:grid;place-items:center;box-shadow:0 10px 28px -6px rgba(37,211,102,.45),0 6px 18px -6px rgba(0,0,0,.6);
+  opacity:0;visibility:hidden;transform:translateY(14px) scale(.9);transition:opacity .3s,transform .3s,visibility .3s;
+}
+.flutua.on{opacity:1;visibility:visible;transform:none}
+.flutua svg{width:27px;height:27px}
+.flutua:hover{background:var(--zap-claro)}
+
+@media(max-width:760px){
+  .nav img{height:34px}
+  .nav-cta{font-size:.8rem;padding:.5rem .9rem}
+  h2{font-size:1.55rem;line-height:1.15}
+  .lede{font-size:1rem}
+  .btn{width:100%;justify-content:center;padding:1rem 1.2rem}
+  .hero{padding-block:26px 56px}
+  .garantias{gap:.45rem 1rem;font-size:.82rem}
+  .dores{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:calc(var(--gut)*-1);padding-inline:var(--gut);padding-bottom:.4rem}
+  .dores::-webkit-scrollbar{display:none}
+  .dor{flex:0 0 82%;scroll-snap-align:center}
+  .avals{display:flex;overflow-x:auto;scroll-snap-type:x mandatory;scrollbar-width:none;margin-inline:calc(var(--gut)*-1);padding-inline:var(--gut);padding-bottom:.4rem}
+  .avals::-webkit-scrollbar{display:none}
+  .aval{flex:0 0 84%;scroll-snap-align:center}
+  .passos{gap:10px;margin-top:2.2rem}
+  .passo{padding:1rem 1.1rem 1.1rem}
+  .abas{border-radius:16px;margin-inline:calc(var(--gut)*-1);border-left:0;border-right:0;border-radius:0;width:auto;padding-inline:var(--gut)}
+  .faq summary{padding:1rem 2.2rem 1rem 2.4rem;font-size:.98rem}
+  .faq summary::before{top:1.1rem}
+  .faq .resp{padding:0 .4rem 1.2rem 2.4rem;font-size:.93rem}
+  .rodape{padding-bottom:5.5rem}
+  .rodape .env{flex-direction:column;text-align:center}
+}
+.pista{display:none}
+@media(max-width:760px){
+  .pista{display:flex;gap:6px;justify-content:center;margin-top:1rem}
+  .pista i{width:6px;height:6px;border-radius:50%;background:var(--linha);transition:background .3s,width .3s}
+  .pista i.on{background:var(--verde);width:18px;border-radius:3px}
+}
+@media(prefers-reduced-motion:reduce){
+  *,*::before,*::after{animation:none!important;transition:none!important}
+  .rev{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}
+</style>
+</head>
+<body>
+
+<div class="progresso" id="progresso" aria-hidden="true"></div>
+<div class="fundo-tex" aria-hidden="true"></div>
+
+<!-- ===== NAV: só logo + ação (página de anúncio não tem menu) ===== -->
+<header class="nav" id="nav">
+  <div class="env">
+    <img src="img/logo-ideal.webp" alt="Ideal Conecta" width="420" height="96">
+    <a class="nav-cta zap" href="#" data-btn="nav">Falar no WhatsApp</a>
+  </div>
+</header>
+
+<main>
+
+<!-- ===== 1. HERO — continua a busca do Google ===== -->
+<section class="hero" id="topo">
+  <div class="env hero-grid">
+    <div>
+      <span class="selo-topo">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.9-4.9 1.4 1.4-6.3 6.3Z"/></svg>
+        API Oficial do WhatsApp · Tech Provider Meta
+      </span>
+      <h1>WhatsApp para empresas com <em>vários atendentes no mesmo número</em></h1>
+      <p class="lede">Plataforma de multiatendimento na API Oficial da Meta. Seu time atende junto,
+      num painel só, e o gestor acompanha tudo em tempo real — sem conversa perdida e sem
+      depender de ferramenta que derruba o número.</p>
+      <a class="btn zap" href="#" data-btn="hero">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2m5.8 14.13c-.25.7-1.44 1.33-1.99 1.42-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.68-.62-2.96-1.28-4.89-4.26-5.04-4.46-.15-.2-1.2-1.6-1.2-3.05s.76-2.16 1.030-2.46c.27-.3.59-.37.78-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.06.91 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.02 1.12.99 2.06 1.3 2.36 1.45.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.66-.15.27.1 1.71.81 2 .96.3.15.5.22.57.35.07.13.07.72-.18 1.42Z"/></svg>
+        Falar com a gente no WhatsApp
+      </a>
+      <div class="garantias">
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Sem taxa de implantação</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Sem precisar de TI</span>
+        <span><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg>Suporte com analista técnico</span>
+      </div>
+    </div>
+
+    <figure class="hero-visual rev">
+      <div class="janela">
+        <div class="janela-barra"><i></i><i></i><i></i><b>IDEAL CONECTA — Atendimento</b></div>
+        <img src="img/tela-atendimento.webp" width="1279" height="556" alt="Tela de atendimento da plataforma: fila de conversas com status e tempo de espera, conversa ativa e botões de transferir e encerrar">
+      </div>
+      <span class="etiqueta etiqueta--b"><svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.9-4.9 1.4 1.4-6.3 6.3Z"/></svg>Conectado na API Oficial</span>
+      <span class="etiqueta etiqueta--a"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" aria-hidden="true"><path d="M4 12h14M13 6l6 6-6 6"/></svg>Transferir sem perder o histórico</span>
+    </figure>
+  </div>
+</section>
+
+<!-- ===== 2. DORES — as reclamações mais comuns ===== -->
+<section class="sec sec--solida">
+  <div class="env">
+    <div class="centro rev">
+      <p class="meta">Se alguma dessas acontece na sua empresa</p>
+      <h2>O WhatsApp virou o principal canal. E o maior problema.</h2>
+    </div>
+    <div class="dores rev" id="dores">
+      <article class="dor">
+        <span class="dor-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M5.6 5.6l12.8 12.8"/></svg></span>
+        <p class="fala">"O número da empresa foi banido do nada."</p>
+        <p>Ferramenta não oficial e disparo pelo app comum estão entre as causas mais citadas de banimento. Com o número, vai o contato dos clientes.</p>
+      </article>
+      <article class="dor">
+        <span class="dor-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><rect x="3" y="6" width="7" height="13" rx="1.5"/><rect x="14" y="3" width="7" height="13" rx="1.5"/></svg></span>
+        <p class="fala">"Cada atendente atende no próprio celular."</p>
+        <p>Conversas espalhadas, sem ponto único de controle. Quando alguém sai da empresa, o histórico do cliente sai junto.</p>
+      </article>
+      <article class="dor">
+        <span class="dor-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg></span>
+        <p class="fala">"O cliente reclamou que ninguém respondeu."</p>
+        <p>Sem fila e sem regra de distribuição, a mensagem se perde no meio das outras e o cliente compra de quem respondeu primeiro.</p>
+        <small>Demora para responder é a queixa nº 1 no atendimento online: 58,6% (pesquisa Locaweb, 2026).</small>
+      </article>
+      <article class="dor">
+        <span class="dor-ic"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 3l18 18M10.6 10.6a2 2 0 0 0 2.8 2.8M9.9 5.1A9.6 9.6 0 0 1 12 5c5 0 9 5 9 7a10.8 10.8 0 0 1-2.4 3.4M6.6 6.6C4.4 8 3 10.4 3 12c0 2 4 7 9 7a9 9 0 0 0 4.4-1.2"/></svg></span>
+        <p class="fala">"Não sei o que meu time está respondendo."</p>
+        <p>Quem atendeu, quanto tempo levou, o que ficou parado. Sem isso não dá pra cobrar, orientar nem melhorar.</p>
+      </article>
+    </div>
+    <div class="pista" aria-hidden="true"><i></i><i></i><i></i><i></i></div>
+    <p class="raiz rev">Tudo isso tem a mesma raiz: <em>WhatsApp usado no improviso.</em></p>
+  </div>
+</section>
+
+<!-- ===== 3. A PLATAFORMA — navegação por abas, página curta ===== -->
+<section class="sec sec--clara" id="plataforma">
+  <div class="env">
+    <div class="centro rev">
+      <p class="meta">A plataforma por dentro</p>
+      <h2>Tudo que seu atendimento precisa, numa tela só</h2>
+      <p class="lede" style="margin-top:1rem">Toque nas abas e veja as telas reais da plataforma.</p>
+    </div>
+
+    <div class="abas" role="tablist" aria-label="Recursos da plataforma">
+      <button class="aba" role="tab" id="t1" aria-controls="p1" aria-selected="true">Atendimento</button>
+      <button class="aba" role="tab" id="t2" aria-controls="p2" aria-selected="false" tabindex="-1">Equipes</button>
+      <button class="aba" role="tab" id="t3" aria-controls="p3" aria-selected="false" tabindex="-1">Gestor</button>
+      <button class="aba" role="tab" id="t4" aria-controls="p4" aria-selected="false" tabindex="-1">IA e campanhas</button>
+      <button class="aba" role="tab" id="t5" aria-controls="p5" aria-selected="false" tabindex="-1">Relatórios</button>
+      <button class="aba" role="tab" id="t6" aria-controls="p6" aria-selected="false" tabindex="-1">Agenda</button>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p1" aria-labelledby="t1">
+      <div>
+        <h3>Um número. Vários atendentes. Um painel.</h3>
+        <p>Fila, conversa ativa e histórico no mesmo lugar, para qualquer atendente autorizado.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Fila de atendimento</b><span>Conversas organizadas, com status e tempo de espera visíveis.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Transferência para setor ou pessoa</b><span>Assume ou transfere sem perder o histórico. O cliente não repete nada.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Histórico e respostas rápidas</b><span>Tudo que já foi conversado à mão, e modelos que agilizam o primeiro contato.</span></div></li>
+        </ul>
+      </div>
+      <div class="janela"><div class="janela-barra"><i></i><i></i><i></i><b>Atendimento</b></div><img src="img/tela-atendimento.webp" width="1279" height="556" alt="Tela de atendimento com fila, conversa ativa, botão Transferir e respostas rápidas" loading="lazy"></div>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p2" aria-labelledby="t2" hidden>
+      <div>
+        <h3>Cada equipe com regras e responsáveis</h3>
+        <p>A gestão define supervisor, atendentes e números de cada equipe em poucos cliques.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Distribuição automática</b><span>Para todos (quem responder primeiro assume), por fila em ordem de chegada ou para quem está com menos atendimentos.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Todos os números num só lugar</b><span>Cada equipe recebe as mensagens dos números certos.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Alertas de novo atendimento</b><span>Notificações ativadas por equipe.</span></div></li>
+        </ul>
+      </div>
+      <div class="janela"><div class="janela-barra"><i></i><i></i><i></i><b>Equipes</b></div><img src="img/tela-equipes.webp" width="1267" height="502" alt="Cadastro de equipes com supervisor, atendentes, números vinculados e regra de distribuição" loading="lazy"></div>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p3" aria-labelledby="t3" hidden>
+      <div>
+        <h3>O supervisor vê todas as conversas, ao vivo</h3>
+        <p>Volume e qualidade do atendimento num painel, sem cruzar planilha.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Conversas em tempo real</b><span>Todas as interações da equipe visíveis para o gestor.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Mensagem de sussurro</b><span>Orienta o atendente durante a conversa, sem o cliente ver.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Indicadores na tela</b><span>Tempo médio de espera e de atendimento, satisfação (CSAT) e taxa de resolução.</span></div></li>
+        </ul>
+      </div>
+      <div class="janela"><div class="janela-barra"><i></i><i></i><i></i><b>Dashboard</b></div><img src="img/tela-gestor.webp" width="1249" height="567" alt="Dashboard com total de atendimentos, em andamento, concluídos, TME, TMA, satisfação e taxa de resolução" loading="lazy"></div>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p4" aria-labelledby="t4" hidden>
+      <div>
+        <h3>IA no atendimento e disparo em massa, pela API oficial</h3>
+        <p>Recursos opcionais, ligados quando fizer sentido para a sua operação.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Atendimento com IA</b><span>A IA responde na hora, entende o que o cliente quer e passa pro seu time quando precisa de gente.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Campanhas de disparo em massa</b><span>Promoção, aviso, cobrança e reativação, com modelos de mensagem aprovados pela Meta.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Sem programa paralelo</b><span>Tudo dentro da API oficial, que é o caminho autorizado pela Meta.</span></div></li>
+        </ul>
+      </div>
+      <div class="chat" aria-label="Exemplo de conversa atendida pela IA e passada para o time">
+        <div class="chat-topo">
+          <span class="av"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 12a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Zm0 2c-4.4 0-8 2.2-8 5v2h16v-2c0-2.8-3.6-5-8-5Z"/></svg></span>
+          <div><b>Cliente</b><span>WhatsApp · API Oficial</span></div>
+        </div>
+        <div class="b b--cli">Boa noite! Vocês fazem orçamento pra empresa?<span class="h">22:41</span></div>
+        <div class="b b--ia"><span class="tag-ia">IA</span>Fazemos sim! Quantas pessoas atendem no WhatsApp hoje?<span class="h">22:41</span></div>
+        <div class="b b--cli">Umas 5, em 2 números<span class="h">22:42</span></div>
+        <div class="b-sis">IA passou a conversa para o Comercial</div>
+      </div>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p5" aria-labelledby="t5" hidden>
+      <div>
+        <h3>Relatórios com filtro e exportação em um clique</h3>
+        <p>Dados prontos para reunião de gestão e metas.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Filtros combináveis</b><span>Período, equipe, atendente, status e cliente.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Indicadores resumidos</b><span>Conversas, resolvidas, tempo da 1ª resposta, resolução e CSAT.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Desempenho por equipe</b><span>Fica fácil ver qual equipe precisa de atenção.</span></div></li>
+        </ul>
+      </div>
+      <div class="janela"><div class="janela-barra"><i></i><i></i><i></i><b>Relatórios</b></div><img src="img/tela-relatorios.webp" width="1225" height="498" alt="Relatórios com filtros por período, equipe, atendente, status e cliente, e botões de exportar" loading="lazy"></div>
+    </div>
+
+    <div class="painel-aba" role="tabpanel" id="p6" aria-labelledby="t6" hidden>
+      <div>
+        <h3>Agenda integrada ao atendimento</h3>
+        <p>Cada atendimento agendado fica visível no calendário da equipe.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Dia, semana ou mês</b><span>Navegação simples entre períodos.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Horário comercial configurado</b><span>Define a janela em que a equipe está disponível.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Fuso horário definido</b><span>Sem conflito com clientes de outras regiões.</span></div></li>
+        </ul>
+      </div>
+      <div class="janela"><div class="janela-barra"><i></i><i></i><i></i><b>Agenda</b></div><img src="img/tela-agenda.webp" width="1251" height="544" alt="Agenda com visão por mês, próximos atendimentos e disponibilidade da equipe" loading="lazy"></div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 4. API OFICIAL + WHATSAPP BUSINESS ===== -->
+<section class="sec">
+  <div class="env">
+    <div class="centro rev">
+      <p class="meta">Por que com a gente</p>
+      <h2>No caminho oficial da Meta. Sem largar o que você já usa.</h2>
+    </div>
+    <div class="dois">
+      <div class="cartao rev">
+        <h3>API Oficial, com Tech Provider credenciada pela Meta</h3>
+        <p>A Meta credencia empresas para conectar outras empresas à API oficial do WhatsApp. A Ideal Conecta é uma delas.</p>
+        <ul class="lista">
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Conexão direta com a API oficial</b><span>Sem intermediário escondido e sem gambiarra.</span></div></li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12.5l4.2 4.2L19 7"/></svg><div><b>Configuração feita junto com você</b><span>E orientação para usar dentro das regras da Meta.</span></div></li>
+        </ul>
+      </div>
+      <div class="cartao rev">
+        <h3>Já usa WhatsApp Business? Conecte junto.</h3>
+        <p>Você não precisa escolher. A API oficial e o WhatsApp Business ficam na mesma plataforma, atendidos pelo mesmo time.</p>
+        <div class="canal">
+          <span class="ic"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M12 2 4 5v6c0 5 3.4 9.4 8 11 4.6-1.6 8-6 8-11V5l-8-3Zm-1.2 14.2-3.5-3.5 1.4-1.4 2.1 2.1 4.9-4.9 1.4 1.4-6.3 6.3Z"/></svg></span>
+          <div><b>API Oficial</b><small>Atendimento e campanhas</small></div>
+          <span class="tag">oficial</span>
+        </div>
+        <div class="canal">
+          <span class="ic ic--biz"><svg viewBox="0 0 24 24" fill="#fff" aria-hidden="true"><path d="M4 4h16l-1 5H5L4 4Zm1 7h14v9H5v-9Zm5 2v5h4v-5h-4Z"/></svg></span>
+          <div><b>WhatsApp Business</b><small>O número que você já usa</small></div>
+          <span class="tag">conectado</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 5. PROVA + COMO COMEÇA ===== -->
+<section class="sec sec--clara">
+  <div class="env">
+    <div class="centro rev">
+      <p class="meta">Avaliações no Google</p>
+      <h2>O que diz quem já usa</h2>
+    </div>
+    <div class="avals rev">
+      <div class="aval">
+        <div class="estrelas" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p>"Atendimento de extrema qualidade, plataforma intuitiva e de fácil gestão! Ajudando tanto o gestor quanto os atendentes."</p>
+        <div class="quem">Leonardo Martins<span class="fonte">Avaliação no Google</span></div>
+      </div>
+      <div class="aval">
+        <div class="estrelas" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p>"Ótima plataforma, super fácil de usar!! Pessoal muito gentil, oferecem um suporte sem igual, indico!"</p>
+        <div class="quem">Catharine M. Couto<span class="fonte">Avaliação no Google</span></div>
+      </div>
+      <div class="aval">
+        <div class="estrelas" aria-label="5 de 5 estrelas">★★★★★</div>
+        <p>"Tive uma experiência extremamente positiva com a Ideal Conecta, marcada pela excelência no atendimento e qualidade nos serviços prestados."</p>
+        <div class="quem">Michele Lemes<span class="fonte">Avaliação no Google</span></div>
+      </div>
+    </div>
+
+    <div class="passos rev">
+      <div class="passo"><h3>Entendemos sua operação</h3><p>Quantos números, quem atende o quê, o que não pode parar.</p></div>
+      <div class="passo"><h3>Configuramos com você</h3><p>API oficial, equipes, regras de distribuição e WhatsApp Business, se quiser manter.</p></div>
+      <div class="passo"><h3>Treinamos seu time</h3><p>Todo mundo aprende antes da virada, e o analista técnico fica no grupo com você.</p></div>
+    </div>
+    <p class="fecho-passos">Sem taxa de implantação. Quem escolhe a data da virada é você.</p>
+  </div>
+</section>
+
+<!-- ===== 6. FAQ — objeções de quem busca no Google ===== -->
+<section class="sec">
+  <div class="env">
+    <div class="centro rev">
+      <p class="meta">Antes de você perguntar</p>
+      <h2>Perguntas frequentes</h2>
+    </div>
+    <div class="faq rev">
+      <details>
+        <summary>Quanto custa?</summary>
+        <div class="resp">Depende de quantos atendentes e números a sua operação tem. Na conversa a gente entende o seu cenário e monta a proposta — sem taxa de implantação. Na API oficial, a Meta também cobra pelas mensagens de modelo (como campanhas), conforme a tabela dela; a gente explica isso antes de você fechar.</div>
+      </details>
+      <details>
+        <summary>Funciona com vários atendentes e mais de um número?</summary>
+        <div class="resp">Funciona. Vários atendentes trabalham no mesmo número, e a operação pode ter mais de um número, cada um ligado à equipe certa.</div>
+      </details>
+      <details>
+        <summary>Meu número foi bloqueado. Consigo usar na API oficial?</summary>
+        <div class="resp">Depende do tipo de bloqueio. A gente avalia o seu caso e, se o número não puder voltar, você começa com um número novo já na API oficial, do jeito certo desde o primeiro dia.</div>
+      </details>
+      <details>
+        <summary>A API oficial acaba com o risco de bloqueio?</summary>
+        <div class="resp">Ela elimina o risco que vem de ferramenta não oficial, porque é o caminho autorizado pela Meta. As regras de uso da Meta continuam valendo, e a gente orienta seu time para manter o número saudável.</div>
+      </details>
+      <details>
+        <summary>Posso continuar usando o WhatsApp Business?</summary>
+        <div class="resp">Pode. Você conecta o WhatsApp Business junto com a API oficial e atende os dois na mesma plataforma.</div>
+      </details>
+      <details>
+        <summary>Preciso de alguém de TI? E como é o suporte?</summary>
+        <div class="resp">Não precisa de TI: a gente configura junto com você e treina o time. Depois, você fala direto com o analista técnico responsável pela sua operação, num grupo no WhatsApp.</div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<!-- ===== 7. CHAMADA FINAL ===== -->
+<section class="sec fim">
+  <div class="env">
+    <h2>Seu time atendendo junto, <em>num painel só, na API oficial.</em></h2>
+    <p class="lede">Chame no WhatsApp, conte como é o seu atendimento hoje e veja a plataforma funcionando.</p>
+    <a class="btn zap" href="#" data-btn="fechamento">
+      <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2m5.8 14.13c-.25.7-1.44 1.33-1.99 1.42-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.68-.62-2.96-1.28-4.89-4.26-5.04-4.46-.15-.2-1.2-1.6-1.2-3.05s.76-2.16 1.030-2.46c.27-.3.59-.37.78-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.06.91 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.02 1.12.99 2.06 1.3 2.36 1.45.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.66-.15.27.1 1.71.81 2 .96.3.15.5.22.57.35.07.13.07.72-.18 1.42Z"/></svg>
+      Falar com a gente no WhatsApp
+    </a>
+    <p class="btn-nota">Sem taxa de implantação. Sem formulário.</p>
+  </div>
+</section>
+
+</main>
+
+<footer class="rodape">
+  <div class="env">
+    <img src="img/logo-ideal.webp" alt="Ideal Conecta" width="420" height="96" loading="lazy">
+    <p>Ideal Conecta · Soluções Tecnológicas — Tech Provider Meta — 2026</p>
+  </div>
+</footer>
+
+<a class="flutua zap" href="#" id="flutua" data-btn="flutuante" aria-label="Falar no WhatsApp">
+  <svg viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true"><path d="M12.04 2C6.58 2 2.13 6.45 2.13 11.91c0 1.75.46 3.45 1.32 4.95L2 22l5.25-1.38a9.9 9.9 0 0 0 4.79 1.22h.01c5.46 0 9.91-4.45 9.91-9.91C21.96 6.45 17.5 2 12.04 2m5.8 14.13c-.25.7-1.44 1.33-1.99 1.42-.51.08-1.15.11-1.86-.12-.43-.14-.98-.32-1.68-.62-2.96-1.28-4.89-4.26-5.04-4.46-.15-.2-1.2-1.6-1.2-3.05s.76-2.16 1.030-2.46c.27-.3.59-.37.78-.37.2 0 .39 0 .56.01.18.01.42-.07.66.5.25.6.84 2.06.91 2.21.07.15.12.32.02.52-.1.2-.15.32-.3.5-.15.17-.31.39-.44.52-.15.15-.3.31-.13.61.17.3.76 1.25 1.63 2.02 1.12.99 2.06 1.3 2.36 1.45.3.15.47.12.65-.07.17-.2.75-.87.95-1.17.2-.3.4-.25.66-.15.27.1 1.71.81 2 .96.3.15.5.22.57.35.07.13.07.72-.18 1.42Z"/></svg>
+</a>
+
+<script>
+/* ORIGEM: vem da URL do anúncio (ex.: ...?o=GADS-MULTI). Sem parâmetro: LP-GADS. */
+const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP-GADS")
+  .toUpperCase().replace(/[^A-Z0-9_-]/g, "").slice(0, 24) || "LP-GADS";
+const NUMERO   = "553136140064";
+const MENSAGEM = `Vim pelo Google [${ORIGEM}] e quero conhecer a plataforma de atendimento no WhatsApp`;
+const LINK     = `https://wa.me/${NUMERO}?text=${encodeURIComponent(MENSAGEM)}`;
+
+document.querySelectorAll(".zap").forEach(el=>{
+  el.href = LINK; el.target = "_blank"; el.rel = "noopener";
+  const BOTAO = el.dataset.btn || "sem-rotulo";
+  el.addEventListener("click", ()=>{
+    if(typeof fbq === "function") fbq("track","Contact",{content_name:ORIGEM,content_category:"whatsapp",botao:BOTAO});
+    if(typeof gtag === "function") gtag("event","clique_whatsapp",{origem:ORIGEM,botao:BOTAO});
+  });
+});
+
+/* abas: clique, teclado (setas) e rastreio de qual recurso a pessoa olhou */
+(function(){
+  const abas = [...document.querySelectorAll('[role="tab"]')];
+  const ativa = (aba, foco)=>{
+    abas.forEach(a=>{
+      const sel = a === aba;
+      a.setAttribute("aria-selected", sel);
+      a.tabIndex = sel ? 0 : -1;
+      const p = document.getElementById(a.getAttribute("aria-controls"));
+      p.hidden = !sel;
+      if(sel){ p.classList.remove("anima"); void p.offsetWidth; p.classList.add("anima"); }
+    });
+    if(foco) aba.focus();
+    aba.scrollIntoView({block:"nearest",inline:"center",behavior:"smooth"});
+    if(typeof gtag === "function") gtag("event","ver_recurso",{recurso:aba.textContent.trim()});
+  };
+  abas.forEach((a,i)=>{
+    a.addEventListener("click", ()=>ativa(a));
+    a.addEventListener("keydown", e=>{
+      if(e.key==="ArrowRight") ativa(abas[(i+1)%abas.length], true);
+      if(e.key==="ArrowLeft")  ativa(abas[(i-1+abas.length)%abas.length], true);
+    });
+  });
+})();
+
+/* pista do carrossel de dores (celular) */
+(function(){
+  const t = document.getElementById("dores"), pista = document.querySelector(".pista");
+  if(!t || !pista) return;
+  const pontos = [...pista.children];
+  const marca = ()=>{
+    const i = Math.round(t.scrollLeft / (t.scrollWidth / t.children.length));
+    pontos.forEach((p,k)=>p.classList.toggle("on", k===Math.min(i,pontos.length-1)));
+  };
+  marca(); t.addEventListener("scroll", ()=>requestAnimationFrame(marca), {passive:true});
+})();
+
+/* reveal ao entrar na tela */
+if("IntersectionObserver" in window){
+  const io = new IntersectionObserver(es=>es.forEach(e=>{ if(e.isIntersecting){ e.target.classList.add("on"); io.unobserve(e.target); } }),
+    {rootMargin:"0px 0px -10% 0px", threshold:.06});
+  document.querySelectorAll(".rev").forEach(el=>io.observe(el));
+}else{ document.querySelectorAll(".rev").forEach(el=>el.classList.add("on")); }
+
+/* progresso, borda da nav e botão flutuante */
+(function(){
+  const b = document.getElementById("progresso"), nav = document.getElementById("nav"), fl = document.getElementById("flutua");
+  let t = false;
+  const upd = ()=>{
+    const y = scrollY, max = document.body.scrollHeight - innerHeight;
+    b.style.width = (max>0 ? Math.min(y/max,1)*100 : 0) + "%";
+    nav.classList.toggle("stuck", y > 12);
+    fl.classList.toggle("on", y > innerHeight * .7);
+    t = false;
+  };
+  upd();
+  addEventListener("scroll", ()=>{ if(!t){ t = true; requestAnimationFrame(upd); } }, {passive:true});
+})();
+</script>
+</body>
+</html>
