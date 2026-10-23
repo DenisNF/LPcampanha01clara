@@ -1,0 +1,623 @@
+LANDING PAGES — IDEAL CONECTA
+=============================
+Atualizado em 23/10/2026. Descreve o estado real do que está no ar.
+
+
+AS DUAS PÁGINAS
+---------------
+Existem DUAS landing pages, no mesmo domínio e no mesmo serviço.
+
+  LP 01   https://lp.ideal.ia.br
+          "Nenhum cliente sem resposta"
+          Dor: atendimento perdido, cegueira do gestor, falta de histórico.
+
+  LP 02   https://lp.ideal.ia.br/whatsapp-oficial/
+          "WhatsApp para empresas com vários atendentes"
+          Dor: API oficial contra não oficial, e bloqueio de número.
+
+É a mesma plataforma, por duas portas diferentes.
+
+⚠ A barra no fim do endereço da LP 02 importa. Sem ela pode dar 404.
+
+
+ONDE TUDO MORA
+--------------
+Hospedagem: EasyPanel, projeto "idealconnecta", serviço "lp-denis"
+Origem:     GitHub, DenisNF/LPcampanha01clara, branch main, pasta /lp
+
+No computador:
+   Área de Trabalho\IDEAL\Campanha LPs\lp-ideal-conecta\
+
+⚠ O ARQUIVO MORA SÓ NO REPOSITÓRIO. Não guarde cópia no Desktop nem em
+outra pasta. Duas cópias divergem e você perde a conta de qual é a boa.
+Se quiser abrir no VS Code, abra a pasta "lp-ideal-conecta".
+
+
+ESTRUTURA DA PASTA
+------------------
+   lp/
+     index.html                    ← LP 01
+     LEIA-ME.txt                   ← este arquivo
+     tratar.py                     ← código morto, ver no fim
+     img/
+       logo-ideal-branco.svg
+       hero-sem-resposta.webp
+       ia-1.jpeg
+       ia-responde.webp
+       dashboard-composto.png
+       tela-historico.png
+       grupo.webp
+     whatsapp-oficial/
+       index.html                  ← LP 02
+       img/
+         logo-ideal.webp
+         tela-atendimento.webp
+         tela-equipes.webp
+         tela-gestor.webp
+         tela-relatorios.webp
+         tela-agenda.webp
+
+Cada LP tem a sua própria pasta img/. Não compartilham imagem.
+
+⚠ PARA CRIAR UMA LP 03: basta criar outra subpasta aqui dentro, com o
+index.html e a img/ dela. O servidor serve subpasta sem configuração
+extra — isso foi confirmado na publicação da LP 02 em 22/10. Não precisa
+de serviço novo nem de domínio novo.
+
+
+COMO PUBLICAR UMA ALTERAÇÃO
+---------------------------
+São dois passos, em dois lugares:
+
+1. PUSH — mandar do computador para o GitHub
+   Abra o VS Code na pasta "lp-ideal-conecta" (não na "lp").
+   No terminal tem que aparecer (main) no fim da linha. Se não aparecer,
+   é a pasta errada e nenhum comando de git vai funcionar.
+
+      git add .
+      git commit -m "o que mudou"
+      git push
+
+   ⚠ Sem o "git add ." o commit sai vazio. add é pôr na caixa, commit é
+   fechar a caixa, push é enviar.
+
+2. DEPLOY — mandar o EasyPanel buscar a versão nova
+   Botão "Deploy" no topo da página do serviço lp-denis.
+
+   ⚠ CHEGUE AO SERVIÇO PELA LISTA LATERAL do EasyPanel, nunca por link
+   salvo. Em 22/10 o Deploy falhou duas vezes com a mensagem
+   "Invariant failed", durando 0 segundos. A causa era uma URL salva
+   apontando para /app/lpdenis (sem hífen). O serviço real é lp-denis,
+   com hífen. A URL apontava para um serviço que não existe, e o erro
+   não diz nada sobre isso.
+
+   Três sintomas da mesma causa: tela do Source em branco, Deploy em
+   0 segundos, e "Invariant failed".
+
+⚠ Deploy sem push republica a versão antiga. A ordem importa.
+⚠ Às vezes o PRIMEIRO Deploy republica a versão velha mesmo com o push
+  feito. Se a página não mudou, clique Deploy de novo e espere.
+⚠ Um Deploy publica AS DUAS LPs. Elas compartilham o serviço.
+
+O autoDeploy está DESLIGADO. Se for ligado, o passo 2 deixa de ser
+necessário — todo push republica sozinho.
+
+⚠ NÃO CONFIRA O PUSH PELO raw.githubusercontent.com. Ele tem cache de
+alguns minutos e dá falso negativo. Confira no próprio GitHub, na lista
+de commits.
+
+
+CONFIGURAÇÃO DO EASYPANEL — não mexer sem motivo
+------------------------------------------------
+Tipo de serviço: App (não é "Static")
+Build:           Nixpacks 1.41.0, todos os campos em branco
+Caminho no repo: /lp
+Porta do domínio: 80
+Variável de ambiente do serviço: PORT=80
+
+⚠ O PORT=80 no serviço existe para SOBREPOR o PORT=3030 definido no nível do
+projeto. Sem ele, o nginx sobe na 3030, o domínio bate na 80 e a página
+responde "Service is not reachable". Isso já aconteceu em 08/09 e levou
+uma hora para ser diagnosticado. Não apague essa variável.
+
+
+RASTREAMENTO — o que está instalado
+-----------------------------------
+Tudo colado direto no <head> do HTML, nas duas páginas. Não usa Tag Manager.
+
+PIXEL DA META — 2911635805665774
+  Conjunto de dados "Ideal Connecta", conta de anúncios 407020688814606.
+  Dispara PageView no carregamento. As duas páginas têm o <noscript> de
+  fallback.
+
+GOOGLE ANALYTICS — G-MWHGRS4EQ1
+  Conta 389471127 > propriedade 530706737 ("Ideal Connecta - LPcampanha01")
+  > fluxo "LP.Ideal01 Clara".
+
+  ⚠ AS DUAS LPs USAM A MESMA PROPRIEDADE E O MESMO FLUXO. É isso que
+  permite comparar uma com a outra. Elas se separam por content_group e
+  pelo caminho da página. Regra: site novo → propriedade nova; campanha
+  nova → parâmetro novo na URL. Propriedades não conversam entre si.
+
+VERIFICAÇÃO DE DOMÍNIO
+  Não é necessária. ideal.ia.br já está verificado no Business Manager
+  (ID 868009789721365) e a verificação cobre os subdomínios e os caminhos.
+
+GOOGLE ADS — vinculado em 23/10/2026
+  Conta "Ideal Conecta", ID 584-700-9654.
+  Codificação automática LIGADA (é ela que gera o gclid).
+
+  ⚠ NÃO COLOQUE UTM MANUAL NO GOOGLE. Ela briga com a codificação
+  automática e suja o GA4. No Google vai só o ?o=.
+
+  ⚠ Existe uma segunda conta, "Não tem Utilizade no momento"
+  (316-400-9799), que é conta de administrador (MCC). NÃO vincular essa.
+
+
+OS EVENTOS
+----------
+As duas páginas disparam os mesmos eventos, com os mesmos nomes e os
+mesmos parâmetros. Isso é o que permite comparar.
+
+Quatro botões de WhatsApp por página, todos com a classe .zap:
+
+   nav          botão do topo (some no celular)
+   hero         CTA principal da primeira dobra
+   fechamento   CTA da última seção
+   flutuante    bolinha verde do canto
+
+O clique em qualquer um dispara DOIS eventos:
+
+   Contact           (Meta)      → é a conversão da página
+   clique_whatsapp   (Analytics) → comportamento na página
+
+Os dois levam junto:
+   origem / content_name  — o código do anúncio (o "bilhete")
+   botao                  — em qual dos quatro botões a pessoa clicou
+
+SÓ NA LP 02:
+   ver_recurso  → dispara quando a pessoa toca numa das abas da seção
+                  "A plataforma por dentro". Leva o nome do recurso.
+                  Diz qual recurso as pessoas querem ver.
+
+⚠ NÃO MARQUE ver_recurso COMO EVENTO PRINCIPAL no GA4. Ele é sinal de
+interesse, não de conversão. Se virar conversão, o algoritmo otimiza
+para quem toca em aba, não para quem chama no WhatsApp.
+
+⚠ O Contact marca o CLIQUE, não a mensagem enviada. Do clique em diante a
+medição depende da planilha manual. O pixel não atravessa para o WhatsApp.
+
+⚠ COMBINADO DE 04/09: o dado por botão foi instalado para ficar guardado,
+NÃO para ser lido nos primeiros 30 dias. Com volume baixo, diferença de
+três cliques é ruído, não sinal.
+
+Observação útil: o rótulo do botão funciona como medida de rolagem.
+Quem clica no "hero" não leu a página; quem clica no "fechamento" leu
+inteira.
+
+
+DIMENSÕES PERSONALIZADAS DO GA4
+-------------------------------
+Administrador → Exibição de dados → Definições personalizadas.
+
+   Origem do Anúncio   → parâmetro: origem     (desde 11/09)
+   botão clicado       → parâmetro: botao      (desde 11/09)
+   Recurso visto       → parâmetro: recurso    (desde 22/10)
+
+⚠ O que precisa bater exatamente com o HTML é o PARÂMETRO, não o nome na
+tela. Dimensão com parâmetro errado é aceita pelo GA4 e fica vazia para
+sempre, sem dar erro.
+
+EVENTO PRINCIPAL: só clique_whatsapp está marcado (além de purchase, que
+o GA4 não deixa desmarcar e nunca dispara).
+
+⚠ Em 23/10 foram encontrados dois eventos marcados como principais que
+NUNCA dispararam: close_convert_lead e qualify_lead. Eram sugestões
+padrão do GA4 que ficaram ligadas. Foram desmarcados. Se reaparecerem,
+desmarque de novo — importar um deles no Google Ads faria a campanha
+otimizar para um evento que não existe.
+
+
+O CÓDIGO DE ORIGEM — o "bilhete"
+--------------------------------
+No fim de cada index.html:
+
+   const ORIGEM = (new URLSearchParams(location.search).get("o") || "LP01-DIRETO")
+
+O padrão, decidido em 22/10:
+
+   LP02-GADS-BLOQUEIO
+    │     │      └─ ângulo do anúncio
+    │     └──────── plataforma: META · GADS · LKDN
+    └────────────── qual LP: LP01 · LP02
+
+Sem parâmetro na URL: LP01-DIRETO ou LP02-DIRETO.
+
+⚠ REGRA CENTRAL: A PÁGINA NUNCA AFIRMA DE ONDE A PESSOA VEIO. Quem
+informa é a URL do anúncio. Até 22/10 a LP 02 dizia "Vim pelo Google"
+fixo na mensagem e usava LP-GADS como padrão — as duas coisas mentiam
+para quem viesse de outro canal. Foram corrigidas.
+
+Regras do código:
+   - Máximo 24 caracteres. Acima disso a página corta.
+   - Só letra, número, hífen e underline. O resto é apagado por regex.
+   - Vira maiúsculo sozinho.
+   - Para testar, use -TESTE no fim. Casa com a conversão e é
+     reconhecível depois.
+   - NÃO ACEITA parâmetro dinâmico da Meta ({{ }}). As chaves são
+     apagadas pela limpeza. O código é escrito à mão, um por anúncio.
+
+O código entra sozinho na mensagem pré-preenchida do WhatsApp:
+
+   "Vim pelo site [LP01-META-HISTORICO] e quero saber mais..."
+
+CÓDIGOS DA LP 01 (os cinco ângulos de 31/08):
+   LP01-META-PERDIDO     atendimento perdido
+   LP01-META-CEGUEIRA    cegueira do gestor
+   LP01-META-HISTORICO   histórico / a prova
+   LP01-META-FOLLOWUP    follow-up perdido
+   LP01-META-OBJECAO     quebra de objeção
+   (trocar META por GADS para o Google)
+
+CÓDIGOS DA LP 02: ainda não existem. A campanha dela não foi desenhada.
+
+⚠ NÃO DUPLICAR A PÁGINA POR ÂNGULO. A decisão de 03/09 derrubou isso —
+um arquivo só serve todos os anúncios, e correção feita uma vez vale para
+todos. Cinco arquivos iguais divergem na primeira correção.
+
+⚠ O valor é limpo por regex antes de entrar na mensagem. Isso não é
+frescura: o valor vem da URL e vai dentro de um texto que a pessoa envia.
+
+⚠ POR QUE A PLATAFORMA PRECISA ESTAR NO CÓDIGO: a UTM morre no clique.
+O ?o= atravessa, porque vai escrito dentro da mensagem. É a única coisa
+que o time consegue ler no WhatsApp — e a única ponte entre o que foi
+gasto e o que foi vendido.
+
+
+UTM — só na Meta
+----------------
+   utm_source   = meta
+   utm_medium   = cpc
+   utm_campaign = {{campaign.name}}
+   utm_content  = {{ad.name}}
+   utm_term     = {{site_source_name}}   → devolve fb, ig, an ou msg
+
+As chaves são parâmetros dinâmicos: a Meta preenche sozinha. Um link
+serve todos os criativos de um ângulo.
+
+⚠ Nome de campanha e de anúncio SEM ESPAÇO E SEM ACENTO. O nome entra cru
+na URL. "Campanha Atendimento Perdido" vira Campanha%20Atendimento%20...
+
+Exemplo completo de link de anúncio da Meta:
+
+   https://lp.ideal.ia.br/?o=LP01-META-HISTORICO&utm_source=meta&utm_medium=cpc&utm_campaign={{campaign.name}}&utm_content={{ad.name}}&utm_term={{site_source_name}}
+
+No Google, só:
+
+   https://lp.ideal.ia.br/whatsapp-oficial/?o=LP02-GADS-BLOQUEIO
+
+Testado em 23/10: o bilhete sobrevive às UTMs, ao gclid e a qualquer
+ordem dos parâmetros.
+
+
+AS CONVERSÕES PERSONALIZADAS DA META
+------------------------------------
+   LP01 - Clique WhatsApp   1697249298492927
+      Evento Contact E content_name contém "LP01"
+
+   LP02 - Clique WhatsApp   1170726175959480
+      Evento Contact E content_name contém "LP02"
+
+Fonte da ação: Site. Sem valor de conversão.
+Criadas e testadas em 22/10.
+
+⚠ A REGRA É POR content_name, NÃO POR URL. A conversão antiga usava
+"URL contém lp.ideal.ia.br" — e quando a LP 02 subiu no mesmo domínio,
+as duas páginas passaram a cair na mesma conversão. O número existia,
+parecia certo, e estava somado.
+
+⚠ CUIDADO AO CRIAR UMA NOVA: o campo do parâmetro aparece cortado na tela
+da Meta como "content-". Dá para confundir content_name com
+content_category. O segundo vale "whatsapp" nas duas LPs — escolhido por
+engano, a conversão fica em zero para sempre e não dá erro nenhum.
+
+⚠ A Meta NÃO DEIXA EDITAR a regra depois de criada. Errou, cria outra.
+
+⚠ A Meta só sugere na lista os parâmetros que já recebeu. content_name
+não aparece — digite à mão.
+
+⚠ DOIS RELÓGIOS NA MESMA TELA: "Recebido pela última vez" é quase em
+tempo real; "Total de conversões" é agregado e demora horas. E o filtro
+de data vem com um intervalo que não inclui o dia de hoje. Ver 0 no total
+não significa que falhou.
+
+CONVERSÕES ANTIGAS — não usar, e não foram apagadas:
+   ZZ ANTIGA - LP01 por URL (nao usar)   29136360162634630
+   LEAD                                   918227274344091
+   REDIRECT IDEAL                        4238324993059000
+
+A LEAD e a REDIRECT IDEAL disparam em PageView, não em lead. A LEAD
+chama-se LEAD e mede PageView — é o erro que custou R$ 25 mil e ficou
+quatorze meses sem ninguém perceber, porque o número no Gerenciador
+estava bonito.
+
+
+NÚMERO DO WHATSAPP
+------------------
+   const NUMERO = "553136140064"
+
+Confirmado em 04/09, igual nas duas páginas. A LP antiga usava ...050 —
+não confundir.
+
+
+IMAGENS
+-------
+⚠ REGRA: IMAGEM MORA EM ARQUIVO, NUNCA DENTRO DO HTML.
+
+A LP 02 chegou em 22/10 com as 8 imagens embutidas em base64, e o arquivo
+tinha 335 KB. Três problemas, e o peso era o menor:
+
+  1. Imagem em base64 não é guardada em cache — toda visita rebaixa tudo
+  2. O navegador baixa o arquivo inteiro antes de pintar a primeira linha
+  3. O loading="lazy" não tem efeito nenhum, os bytes já vieram junto
+
+Extraídas: HTML de 335 KB para 48 KB, imagens em 165 KB cacheáveis.
+Se a ferramenta que gerar a página embutir de novo, extraia de novo.
+
+LP 01 — ilustração onde é cena, print real onde é prova:
+  hero-sem-resposta.webp  ilustração  hero — celular às 3h sem resposta
+  grupo.webp              ilustração  o grupo no WhatsApp com o cliente
+  ia-1.jpeg               PRINT REAL  a IA atendendo
+  ia-responde.webp        PRINT REAL  a IA respondendo às 2h
+  dashboard-composto.png  PRINT REAL  o painel de gestão
+  tela-historico.png      PRINT REAL  o histórico da conversa
+
+LP 02 — todas são print real da plataforma:
+  logo-ideal.webp         o logo
+  tela-atendimento.webp   fila, conversa ativa, transferir
+  tela-equipes.webp       cadastro de equipes e distribuição
+  tela-gestor.webp        dashboard com TME, TMA, CSAT
+  tela-relatorios.webp    filtros e exportação
+  tela-agenda.webp        calendário da equipe
+
+Os prints reais são a prova do produto. Não trocar por ilustração.
+
+⚠ A imagem da IA com selo de verificado NÃO foi usada — a Ideal Conecta
+não tem conta verificada no WhatsApp Business, e afirmar isso numa página
+pública seria falso.
+
+PENDENTE na LP 02: o logo está em WebP de 12 KB. A LP 01 usa o mesmo logo
+em SVG (~2 KB), nítido em qualquer tela. Trocar é ganho de graça.
+
+PENDENTE na LP 02: a aba "Atendimento" mostra o mesmo print que já está
+no hero. A pessoa clica esperando ver algo novo e vê o que já viu.
+
+
+FONTES
+------
+Familjen Grotesk (títulos) e Outfit (corpo), do Google Fonts. Nas duas.
+
+
+RITMO DAS SEÇÕES — LP 01
+------------------------
+A página alterna recipientes para não virar uma faixa atrás da outra:
+
+  .sec              conteúdo solto sobre o fundo
+  .sec .painel      painel flutuante arredondado, translúcido com blur
+  .sec--solida      faixa quase opaca, para dar contraste
+  .sec--clara       faixa off-white, quebra de ritmo (desde 21/10)
+
+Sequência atual:
+  hero          solto
+  problema      painel flutuante
+  IA responde   solto
+  painel/dados  FAIXA CLARA        ← mudou em 21/10
+  histórico     solto
+  grupo         FAIXA CLARA        ← mudou em 21/10
+  avaliações    painel claro
+  como começa   faixa sólida
+  FAQ           painel
+  fechamento    solto
+
+ALTERNÂNCIA DAS IMAGENS — nas seções de duas colunas o lado alterna:
+  IA responde    texto esquerda  ·  imagem direita   (.dupla)
+  Painel         imagem esquerda ·  texto direita    (.dupla--inv)
+  Histórico      texto esquerda  ·  imagem direita   (.dupla)
+  Grupo          imagem esquerda ·  texto direita    (.dupla--inv)
+
+Se acrescentar uma seção nova, continue alternando.
+
+
+A FAIXA CLARA — como foi feita (21/10)
+--------------------------------------
+A classe .sec--clara redefine os TOKENS DE COR dentro do escopo da seção.
+Título, corpo, etiqueta, bordas, moldura das telas e o verde herdam
+sozinhos. Não foi override elemento por elemento.
+
+   background: #f4f7f7   (off-white, não branco puro)
+
+⚠ APRENDIZADO QUE CUSTA CARO SE ESQUECER: ao colocar fundo claro, dois
+elementos ficaram ilegíveis e nenhum painel avisou.
+
+   etiqueta .meta        estava em 3,90:1  →  corrigida para 4,9:1 (#577074)
+   tracinho verde        estava em 4,22:1  →  corrigida para 5,4:1 (#257158)
+
+O mínimo da WCAG para texto pequeno é 4,5:1.
+
+REGRA: cor que funciona sobre fundo escuro não funciona sobre fundo
+claro. Trocar o fundo de uma seção obriga a recalcular o contraste de
+tudo que está dentro dela.
+
+OBSERVAÇÃO REGISTRADA (21/10): com duas faixas claras, a monotonia se
+desloca para o terço final, onde ficam quatro seções escuras seguidas
+(avaliações, implantação, FAQ, fechamento). A recomendação era deixar o
+histórico claro também, formando um bloco de produto único. Decisão do
+Dennis: ficar com duas. Registrado como escolha dele.
+
+
+FUNDO — sem foto, construído em CSS
+-----------------------------------
+Três camadas fixas: gradientes verde-água (body::before), malha de pontos
+(.fundo-tex::before) e traços verticais de luz (.fundo-tex::after).
+
+PALETA: #1d5a5c / #174a4e / #103539. Os acentos são #5fe3b4, #9df0cd e
+#a8f5d6 — subiram de tom porque o verde da marca (#3eb289) sumia no fundo
+verde. Se mexer no fundo, confira estes tons.
+
+POR QUE NÃO TEM FOTO: as páginas são cheias de print de tela. Foto atrás
+de interface cria ruído sobre ruído — e os prints são a prova do produto.
+Foram testadas cinco opções e nenhuma convenceu.
+
+Se um dia voltar a usar foto: 3000px de largura no mínimo e escura de
+origem. Vídeo de fundo foi descartado — trava a rolagem no 4G.
+
+
+A LP 02 POR DENTRO
+------------------
+Estrutura diferente da LP 01. As seções principais:
+
+  hero                   título, subtítulo, CTA, print do atendimento
+  dores                  4 cartões em carrossel no celular
+  plataforma por dentro  ABAS com as telas reais (dispara ver_recurso)
+  por que com a gente    Tech Provider Meta + WhatsApp Business junto
+  avaliações             3 avaliações reais do Google Meu Negócio
+  como começa            3 passos, sem taxa de implantação
+  FAQ                    6 perguntas
+  fechamento             CTA final
+
+AS ABAS: navegáveis por clique e por seta do teclado. Cada troca dispara
+ver_recurso com o nome do recurso.
+
+AS AVALIAÇÕES: Leonardo Martins, Catharine M. Couto e Michele Lemes.
+São pessoas da Algar Telecom, canal da Ideal Conecta, que usam a
+plataforma. As avaliações existem no Google Meu Negócio e podem ser
+conferidas. Confirmado pelo Dennis em 22/10.
+
+O 58,6%: "Demora para responder é a queixa nº 1 no atendimento online:
+58,6% (pesquisa Locaweb, 2026)". FONTE VERIFICADA em 23/10:
+locaweb.com.br/blog/estudos/estudo-atendimento-online/
+Publicado 13/02/2026, 500 consumidores brasileiros adultos, 95% de
+confiança, margem de 3,3 pontos. O 58,6% é o primeiro colocado entre os
+erros mais comuns, à frente de "mensagens genéricas" (55%).
+
+⚠ A liderança é apertada: 3,6 pontos de diferença com margem de erro de
+3,3. "Queixa nº 1" é o que a pesquisa mostra, mas é quase empate.
+
+DA MESMA PESQUISA, guardado para uso futuro:
+   83,8% preferem WhatsApp como canal de contato com marcas
+   77,4% apontam agilidade no suporte como o principal diferencial
+
+
+CÓDIGO MORTO — existe no CSS da LP 01 e não é usado
+---------------------------------------------------
+Não quebra nada, mas não procure por eles no HTML:
+
+  .marca-fundo   pede img/marca.png, que não existe
+  .telafundo     nunca aplicado a nenhuma seção
+  .chat          chat desenhado, substituído pela imagem grupo.webp
+  .fio / .msg    fio de mensagens, substituído pela imagem do hero
+  .b--extra      regra do chat desenhado
+  .fotofundo     div vazia na seção do problema
+
+tratar.py — script que tonalizava fotos de fundo. NÃO é mais usado.
+Fica no repositório como histórico.
+
+
+INTERAÇÕES
+----------
+LP 01:
+1. CONTADOR DO HERO — a legenda sobe de "1 mensagem" para "4 mensagens".
+   É a única animação com significado: as mensagens se acumulando sem
+   resposta são o próprio argumento da página.
+2. BARRA DE PROGRESSO — linha de 2px no topo, verde para limão.
+3. REVEAL EM CASCATA — cartões, passos e FAQ entram em sequência.
+4. HOVER — cartões sobem, telas crescem 1,2%.
+5. CARROSSEL NO CELULAR — cartões do problema e avaliações deslizam.
+
+LP 02:
+1. ABAS da seção "a plataforma por dentro", com teclado e rastreio.
+2. CARROSSEL dos 4 cartões de dor no celular, com pista de pontos.
+3. REVEAL e HOVER iguais.
+
+Todas respeitam prefers-reduced-motion.
+
+
+CORES DOS BOTÕES
+----------------
+CTA principal (hero e fechamento): verde limão #e3ff36
+  É o único ponto de alta energia da página.
+
+Botão flutuante: verde WhatsApp #25d366
+  Ali o reconhecimento vale mais que o destaque.
+
+
+DECISÕES DE TEXTO QUE NÃO PODEM SER DESFEITAS SEM MOTIVO
+--------------------------------------------------------
+1. SEM PREÇO E SEM FORMULÁRIO nas duas. O único caminho de conversão é a
+   conversa no WhatsApp.
+
+2. FIDELIDADE FICOU DE FORA (02/09). Tratada na reunião, onde o Gustavo
+   pode negociar. Registro: fidelidade é um dos medos declarados da
+   persona, e a página não o responde. O argumento a favor de tirar é que
+   levantar o assunto planta a preocupação em quem não estava pensando nela.
+
+3. PRAZO DE IMPLANTAÇÃO SAIU DO TEXTO (03/09). O "até um mês" não aparece
+   mais. Prazo nunca soa rápido para quem tem medo de implantação demorada
+   — o leitor guarda o número, não o "poucos dias". Sem número, o medo
+   morre porque a data passa a ser dele.
+
+4. A IA NÃO TEM NOME. Decisão de 31/08: com um cliente, nome de IA é
+   atrito no anúncio.
+
+5. A LP 02 AFIRMA QUE TREINA O TIME, em dois lugares — na seção de
+   implantação e no FAQ. Confirmado pelo Dennis em 23/10 que o treinamento
+   acontece antes da virada. É promessa pública: se mudar, muda a página.
+
+
+O QUE AINDA PODE ENTRAR
+-----------------------
+- og:image e og:title nas duas — hoje o link compartilhado no WhatsApp
+  aparece sem preview
+- Foto do Gustavo na seção "gente do lado" da LP 01
+- Autorização da Unicorp para o nome aparecer na tela de histórico
+- CTA que qualifica antes de mandar para o WhatsApp (duas perguntas em
+  botões). Recomendação de 01/09, decisão do Dennis, nunca tomada.
+- Logo da LP 02 em SVG no lugar do WebP
+- Print novo para a aba "Atendimento" da LP 02
+
+
+O QUE FALTA TESTAR
+------------------
+- As duas páginas num celular de verdade, em 4G — o simulador do Chrome
+  não conta
+- Importar clique_whatsapp como conversão no Google Ads (aguardando a
+  sincronização do vínculo feito em 23/10)
+- Filtro de tráfego interno no GA4 — PRECISA ESTAR ATIVO ANTES DO PRIMEIRO
+  REAL SAIR. O teste do Dennis pelo VS Code já aparece como visitante no
+  relatório (caminho /lp/whatsapp-oficial/index.html, que não existe no
+  servidor). Admin → Fluxos de dados → Definir tráfego interno, e depois
+  Admin → Filtros de dados, mudando de "Teste" para "Ativo". Em "Teste"
+  ele não exclui nada.
+
+⚠ Não dá para testar o pixel com a página aberta por file:// — o navegador
+trata como origem isolada e o Teste de Eventos não reconhece.
+
+⚠ A tela "Eventos de teste" da Meta não funciona com URL que já tem
+parâmetro: ela não anexa o código de teste e dá falso negativo. Conferir
+pelo DevTools, aba Network, filtro "facebook", procurando tr/?id=
+(com barra; filtrar por "tr?" não encontra nada).
+
+⚠ A tela "Fluxos de dados" do GA4 atrasa e dá falso negativo. Para saber
+se está recebendo, use Relatórios → Tempo real.
+
+
+ARRUMAÇÃO PENDENTE — nada urgente
+---------------------------------
+- Renomear o repositório LPcampanha01clara. O nome mente: ele guarda as
+  duas campanhas. O GitHub redireciona sozinho depois de renomear.
+- Renomear o serviço lp-denis no EasyPanel. Nome de pessoa em serviço de
+  produção confunde.
+- Ligar o autoDeploy e eliminar o passo manual.
+- Excluir as três conversões antigas da Meta.
+- Corrigir a descrição da dimensão "Origem do Anúncio" no GA4, que ainda
+  cita o padrão velho (LP-ANG3, LP-GERAL).
